@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum DoorKeyType
@@ -12,7 +13,10 @@ public class Door : MonoBehaviour
 {
     MultiRayDetector _detector;
     public DoorKeyType doorType = DoorKeyType.NONE; 
-    public BoxCollider2D collision; 
+    public GameObject collision;
+
+    public List<IRoomAccess> roomInit = new List<IRoomAccess>(); 
+    
     private void Start()
     {
         _detector = gameObject.GetComponent<MultiRayDetector>(); 
@@ -27,15 +31,62 @@ public class Door : MonoBehaviour
     {
         if(doorType == DoorKeyType.NONE)
         {
-            collision.enabled = false; 
+            collision.SetActive(false); 
         }
 
         if (doorType == DoorKeyType.PLAYER)
         {
             if (collision.gameObject.layer == 6)
-                collision.enabled = false;
+                collision.SetActive(false);
         }
     }
 }
 
+public interface IRoomAccess
+{
+    void AwakenRoom();
 
+    void DeactivateRoomInstance();
+
+    void PrepareRoomInstance();
+}
+
+public class RoomHandler : MonoBehaviour, IRoomAccess
+{
+    public GameObject roomParent; 
+    private GameObject _currentCopy;
+    private bool _resetRoom = false;
+
+    private bool RoomActive
+    {
+        get { return _currentCopy.activeSelf; }
+        set { _currentCopy.SetActive(value); }
+    }
+
+    public bool ResetRoom
+    {
+        get { return _resetRoom; }
+        set { _resetRoom = value; }
+    }
+
+    void IRoomAccess.PrepareRoomInstance()
+    {
+        if (_currentCopy == null || _resetRoom)
+        {
+            GameObject.Destroy(_currentCopy);
+            _currentCopy = Instantiate(roomParent);
+        }
+
+    }
+
+    void IRoomAccess.DeactivateRoomInstance()
+    {
+        RoomActive = false;
+    }
+
+    void IRoomAccess.AwakenRoom()
+    {
+        RoomActive = true;
+    }
+    
+}

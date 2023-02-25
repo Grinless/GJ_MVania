@@ -6,7 +6,7 @@
 [System.Serializable]
 public class GroundChecker : MonoBehaviour
 {
-    private const float JUMP_DETECTION_DIST = .6f;
+    private const float JUMP_DETECTION_DIST = .75f;
     private const float JUMP_DETECTION_LENGTH = 0.4f;
 
 #if DEBUG
