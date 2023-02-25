@@ -35,6 +35,7 @@ public class PlayerInput
     public PlayerInputAlloc jumpKey = new PlayerInputAlloc();
     public PlayerInputAlloc shootKey = new PlayerInputAlloc();
     public PlayerInputAlloc missileKey = new PlayerInputAlloc();
+    public PlayerInputAlloc interactionKey = new PlayerInputAlloc();
 }
 
 [System.Serializable]
