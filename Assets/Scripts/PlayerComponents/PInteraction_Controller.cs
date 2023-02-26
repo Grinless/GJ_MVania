@@ -18,8 +18,10 @@ public class PInteraction_Controller : MonoBehaviour
     {
         if (lastInteraction != null && _input.KeyRelease())
         {
+#if DEBUG
             print("Interaction occured.");
             lastInteraction.OnInteraction();
+#endif
         }
     }
 
