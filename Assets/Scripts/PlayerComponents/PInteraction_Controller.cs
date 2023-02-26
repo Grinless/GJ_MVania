@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Component responsible for managing interactions initiated by the player. 
+/// </summary>
 public class PInteraction_Controller : MonoBehaviour
 {
     private PlayerInputAlloc _input;

@@ -1,7 +1,10 @@
 ﻿public class RepeatableInteracter : Interacter
 {
-    internal override void OnInteractionOccured()
+    internal override void OnInteractionOccured(IInteractionResult[] recivers)
     {
-        throw new System.NotImplementedException();
+        foreach (IInteractionResult item in recivers)
+        {
+            item.CompleteInteraction(); 
+        }
     }
 }

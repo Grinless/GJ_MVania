@@ -1,14 +1,15 @@
 ﻿public class NonRepeatableInteracter : Interacter
 {
-    public IInteractionResult interactResult;
-    public bool interactedWith = false;
-
-    internal override void OnInteractionOccured()
+    private void Awake()
     {
-        if (!interactedWith)
+        base.repeatable = false; 
+    }
+
+    internal override void OnInteractionOccured(IInteractionResult[] recivers)
+    {
+        foreach (IInteractionResult item in recivers)
         {
-            interactedWith = true;
-            interactResult.CompleteInteraction();
+            item.CompleteInteraction();
         }
     }
 }
