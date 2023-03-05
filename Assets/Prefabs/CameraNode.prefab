@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2777648229658667134}
   - component: {fileID: 2777648229658667135}
   - component: {fileID: 2777648229658667128}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CameraNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followEnabled: 1
   transitionBoundary: 0
+  offsetFromPlayY: 0
 --- !u!61 &2777648229658667128
 BoxCollider2D:
   m_ObjectHideFlags: 0
