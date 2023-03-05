@@ -6,7 +6,9 @@ public class RoomBoundary : MonoBehaviour
 {
     private BoxCollider2D _boundsCollider;
     public bool followEnabled = true;
-    
+    public bool transitionBoundary = false;
+    public float offsetFromPlayY = 0; 
+
     public Bounds GetRoomBounds
     {
         get => _boundsCollider.bounds; 

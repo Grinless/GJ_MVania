@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    private const float TRANSITION_SPEED = 0.15f;
+
     public Camera camera;
     private RoomBoundary _lastRoomBoundary;
     [SerializeField] private RoomBoundary _currentRoomBoundary;
@@ -42,6 +44,9 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    private Vector2 calculatedEntryPoint;
+    private Vector2 calculatedTargetPoint;
+
     public void Update()
     {
         Bounds bounds;
@@ -59,11 +64,66 @@ public class CameraController : MonoBehaviour
 
         withinBoundary = CheckPlayerPosition(playerPosition, bounds);
 
-        //Update the camerea position.
-        if (withinBoundary)
+        if (_currentRoomBoundary.followEnabled)
         {
-            camera.transform.position = UpdateCamera(playerPosition, cameraPos, bounds);
+            //Update the camerea position.
+            if (withinBoundary)
+            {
+                camera.transform.position = UpdateCamera(playerPosition, cameraPos, bounds);
+            }
         }
+        else if (!_currentRoomBoundary.followEnabled && !_currentRoomBoundary.transitionBoundary)
+        {
+            camera.transform.position = UpdateCamera(_currentRoomBoundary.transform.position, cameraPos, bounds);
+        }
+        else if (_currentRoomBoundary.transitionBoundary)
+        {
+            camera.transform.position = Vector3.Lerp(cameraPos, UpdateCameraLockedY(playerPosition, cameraPos, bounds), Time.deltaTime);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_currentRoomBoundary == null)
+            return;
+
+        //Perform camera transition. 
+        GetBoundCollisionSide(
+            playerInstance.transform.position,
+            camera.transform.position,
+            _currentRoomBoundary.GetRoomBounds
+            );
+
+        if (_currentRoomBoundary.transitionBoundary)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(calculatedEntryPoint, 0.5f);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(calculatedTargetPoint, 0.5f);
+        }
+    }
+
+    public void GetBoundCollisionSide(Vector2 playerPosition, Vector2 cameraPos, Bounds bounds)
+    {
+        if (playerPosition.x > bounds.center.x + bounds.size.x / 2)
+        {
+            calculatedEntryPoint = new Vector2(bounds.center.x + bounds.size.x / 2, bounds.center.y);
+            calculatedTargetPoint = new Vector2(bounds.center.x - bounds.size.x / 2, bounds.center.y);
+        }
+        else if (playerPosition.x < bounds.center.x - bounds.size.x / 2)
+        {
+            calculatedEntryPoint = new Vector2(bounds.center.x - bounds.size.x / 2, bounds.center.y);
+            calculatedTargetPoint = new Vector2(bounds.center.x + bounds.size.x / 2, bounds.center.y);
+        }
+    }
+
+    public Vector3 UpdateCameraLockedY(Vector2 playerPosition, Vector3 cameraPos, Bounds bounds)
+    {
+        return new Vector3(
+                Mathf.Clamp(playerPosition.x, bounds.min.x, bounds.max.x),
+                cameraPos.y,
+                -10
+                );
     }
 
     public Vector3 UpdateCamera(Vector2 playerPosition, Vector3 cameraPosition, Bounds roomBounds)
@@ -72,7 +132,7 @@ public class CameraController : MonoBehaviour
             new Vector3(
                 Mathf.Clamp(playerPosition.x, roomBounds.min.x, roomBounds.max.x),
                 Mathf.Clamp(playerPosition.y, roomBounds.min.y, roomBounds.max.y),
-                cameraPosition.z
+                -10
             );
     }
 
