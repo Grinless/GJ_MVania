@@ -7,8 +7,27 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "D:/Game Projects/GJ_Metroidvania/Assets/Tiled/Tiles/A1_Blue/A1_Blue.tsx": {
+            "scaleInDock": 1
+        },
+        "Maps/Area_1_2.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 172.66666666666663,
+                "y": 389.3333333333333
+            }
+        },
+        "Tiles/A1_Blue/A1_Blue.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        }
     },
-    "last.imagePath": "D:/Game Projects/GJ_Metroidvania/Assets/Tiled/Sprites",
+    "last.imagePath": "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Tiled/Sprites",
+    "last.worldFilePath": "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Tiled/Maps",
+    "loadedWorlds": [
+        "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Tiled/Maps/Area_1_WRLD.world"
+    ],
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
@@ -16,6 +35,8 @@
     ],
     "project": "TiledMaps.tiled-project",
     "recentFiles": [
+        "Maps/Area_1_2.tmx",
+        "Tiles/A1_Blue/A1_Blue.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

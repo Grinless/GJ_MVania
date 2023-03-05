@@ -4,42 +4,98 @@ using UnityEngine;
 
 public enum DoorKeyType
 {
-    NONE, 
+    NONE,
     PLAYER
+}
+
+public enum DoorState
+{
+    LOCKED,
+    OPEN
 }
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Door : MonoBehaviour
 {
     MultiRayDetector _detector;
-    public DoorKeyType doorType = DoorKeyType.NONE; 
+    private DoorState _state = DoorState.LOCKED;
+    public DoorKeyType doorType = DoorKeyType.NONE;
     public GameObject collision;
+    public BoxCollider2D entryDetection;
+    public BoxCollider2D exitDetection;
+    public BoxCollider2D exitDetection2;
 
-    public List<IRoomAccess> roomInit = new List<IRoomAccess>(); 
-    
+    public List<IRoomAccess> roomInit = new List<IRoomAccess>();
+
+    private bool SetEntryTriggerState
+    {
+        set => entryDetection.enabled = value;
+        get => entryDetection.enabled;
+    }
+
+    private bool SetExitTriggerState {
+        set => exitDetection.enabled = exitDetection2.enabled = value;
+    }
+
+
+    private void SwapTriggerState()
+    {
+        bool state = SetEntryTriggerState;
+
+        SetEntryTriggerState = !state;
+        SetExitTriggerState = state;
+    }
+
     private void Start()
     {
-        _detector = gameObject.GetComponent<MultiRayDetector>(); 
+        _detector = gameObject.GetComponent<MultiRayDetector>();
+        SetExitTriggerState = false;
+        SetEntryTriggerState = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ResolveDoorOpening();
+        if (_state == DoorState.LOCKED)
+            ResolveDoorOpening();
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerController>() != null)
+        {
+            if (_state == DoorState.OPEN)
+                ResetDoor();
+        }
     }
 
     private void ResolveDoorOpening()
     {
-        if(doorType == DoorKeyType.NONE)
-        {
-            collision.SetActive(false); 
-        }
+
+        if (doorType == DoorKeyType.NONE)
+            OpenDoor();
 
         if (doorType == DoorKeyType.PLAYER)
         {
             if (collision.gameObject.layer == 6)
-                collision.SetActive(false);
+                OpenDoor();
         }
     }
+
+    private void OpenDoor()
+    {
+        collision.SetActive(false);
+        SwapTriggerState();
+        _state = DoorState.OPEN;
+    }
+
+    private void ResetDoor()
+    {
+        collision.SetActive(true);
+        _state = DoorState.LOCKED;
+        SwapTriggerState();
+    }
+
 }
 
 public interface IRoomAccess
@@ -53,7 +109,7 @@ public interface IRoomAccess
 
 public class RoomHandler : MonoBehaviour, IRoomAccess
 {
-    public GameObject roomParent; 
+    public GameObject roomParent;
     private GameObject _currentCopy;
     private bool _resetRoom = false;
 
@@ -88,5 +144,5 @@ public class RoomHandler : MonoBehaviour, IRoomAccess
     {
         RoomActive = true;
     }
-    
+
 }
