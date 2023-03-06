@@ -42,7 +42,7 @@ public class ConeCaster
         Vector2 init = _trans.position;
         Vector2 centerPos = Vector3.down * 10;
 
-        RaycastHit2D hit = Physics2D.Raycast(init, centerPos.normalized.Scale(10), 10);
+        //RaycastHit2D hit = Physics2D.Raycast(init, centerPos.normalized.Scale(10), 10);
 
         if (hit.collider != null)
         {

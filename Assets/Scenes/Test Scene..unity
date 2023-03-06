@@ -14406,6 +14406,10 @@ PrefabInstance:
       propertyPath: normalWeapons.Array.data[0].bulletPrefab
       value: 
       objectReference: {fileID: 1857178658231158384, guid: 094d05c737ca1ab4dbe9d5ff853a16d1, type: 3}
+    - target: {fileID: 5478330930342580109, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 14ca00c21ce682044ace78b84c76e2a3, type: 2}
     - target: {fileID: 5478330930342580110, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -14449,6 +14453,10 @@ PrefabInstance:
     - target: {fileID: 5478330930342580110, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5478330930342580112, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
+      propertyPath: collisionMask.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 5478330930342580115, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
       propertyPath: m_Radius
