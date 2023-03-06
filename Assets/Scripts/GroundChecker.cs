@@ -7,14 +7,18 @@
 public class GroundChecker : MonoBehaviour
 {
     private const float JUMP_DETECTION_DIST = .75f;
-    private const float JUMP_DETECTION_LENGTH = 0.4f;
+    private const float JUMP_DETECTION_LENGTH = 0.25f;
 
-#if DEBUG
-    [SerializeField] private bool debug = true;
-#endif
+    public bool grounded;
+    public GameObject collRes;
+    public LayerMask collisionMask = new LayerMask();
 
-    public bool Grounded => CheckGround();
-    public GameObject collisionResult { get; private set; }
+    public bool Grounded => grounded = CheckGround();
+    public GameObject collisionResult
+    {
+        get => collRes;
+        private set => collRes = value;
+    }
 
     private Vector2 Start
     {
@@ -36,16 +40,12 @@ public class GroundChecker : MonoBehaviour
 
     private bool CheckGround()
     {
-        RaycastHit2D hit = Physics2D.Raycast(Start, End, JUMP_DETECTION_LENGTH);
+        RaycastHit2D hit = Physics2D.Raycast(Start, End, JUMP_DETECTION_LENGTH, collisionMask);
 
         if (hit.collider != null)
         {
-            if (hit.collider.gameObject != gameObject)
-            {
-                collisionResult = hit.collider.gameObject;
-
-                return true;
-            }
+            collisionResult = hit.collider.gameObject;
+            return true;
         }
         return false;
     }
@@ -53,8 +53,6 @@ public class GroundChecker : MonoBehaviour
 #if DEBUG
     private void OnDrawGizmosSelected()
     {
-        if (!debug)
-            return;
         RaycastHit2D hit2D = Physics2D.Raycast(Start, End);
 
         Gizmos.DrawLine(Start, End);
