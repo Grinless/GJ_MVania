@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
 /// <summary>
 /// Class responsible for monitoring ground beneath the player. 
 /// </summary>
 [System.Serializable]
-public class GroundChecker : MonoBehaviour
+public class PlayerWallChecker : MonoBehaviour
 {
     private const float JUMP_DETECTION_DIST = .75f;
     private const float JUMP_DETECTION_LENGTH = 0.25f;
@@ -16,7 +15,7 @@ public class GroundChecker : MonoBehaviour
     public GameObject collRes;
     public LayerMask collisionMask = new LayerMask();
 
-    public bool Grounded => grounded = CheckGround();
+    public bool OnWall => grounded = CheckGround();
     public GameObject collisionResult
     {
         get => collRes;
@@ -27,8 +26,8 @@ public class GroundChecker : MonoBehaviour
     {
         get
         {
-            return new Vector2(transform.position.x,
-                transform.position.y - JUMP_DETECTION_DIST);
+            return new Vector2(transform.position.x - JUMP_DETECTION_DIST,
+                transform.position.y);
         }
     }
 
@@ -36,8 +35,8 @@ public class GroundChecker : MonoBehaviour
     {
         get
         {
-            return new Vector2(transform.position.x,
-                transform.position.y - (JUMP_DETECTION_DIST + JUMP_DETECTION_LENGTH));
+            return new Vector2(transform.position.x - (JUMP_DETECTION_DIST + JUMP_DETECTION_LENGTH),
+                transform.position.y);
         }
     }
 
@@ -48,7 +47,7 @@ public class GroundChecker : MonoBehaviour
         bool found = CheckResult(hit);
 
         //Check easiest cast first. 
-        if(found)
+        if (found)
             return found;
 
         foreach (RayPoints point in points)
@@ -64,7 +63,7 @@ public class GroundChecker : MonoBehaviour
     private class RayPoints
     {
         public Vector2 start;
-        public Vector2 end; 
+        public Vector2 end;
 
         public RayPoints(Vector2 start, Vector2 end)
         {
@@ -81,8 +80,8 @@ public class GroundChecker : MonoBehaviour
 
         for (int i = 0; i < DIVISIONS; i++)
         {
-            rayPoints.Add(new RayPoints(new Vector2(Start.x - currentStep, Start.y), new Vector2(End.x - currentStep, End.y)));
-            rayPoints.Add(new RayPoints(new Vector2(Start.x + currentStep, Start.y), new Vector2(End.x + currentStep, End.y)));
+            rayPoints.Add(new RayPoints(new Vector2(Start.x, Start.y - currentStep), new Vector2(End.x, End.y - currentStep)));
+            rayPoints.Add(new RayPoints(new Vector2(Start.x, Start.y + currentStep), new Vector2(End.x, End.y + currentStep)));
 
             currentStep += step;
         }

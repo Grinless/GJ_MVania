@@ -626,6 +626,23 @@ MonoBehaviour:
   normalWeaponHandler:
     _time: 0
     currentTime: 0
+--- !u!114 &251714485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251714475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8346b6d5db4507f41b488b1a25b11221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grounded: 0
+  collRes: {fileID: 0}
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!4 &256830754 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3870360025949430783, guid: 352eb26302f131346b10f3d60cb4b483, type: 3}
@@ -14462,11 +14479,15 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.42
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5478330930342580112, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5478330930342580106, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 251714484}
+    - targetCorrespondingSourceObject: {fileID: 5478330930342580106, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 251714485}
   m_SourcePrefab: {fileID: 100100000, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PMovementController : MonoBehaviour
+public class PlayerMovementController : MonoBehaviour
 {
     PlayerInput _input;
     PlayerMovementData _data;
@@ -23,11 +23,11 @@ public class PMovementController : MonoBehaviour
         set;
     }
 
-    public void Setup(ref PlayerInput input, ref PlayerMovementData data, Rigidbody2D body2D)
+    private void Start()
     {
-        _rigidbody = body2D;
-        _input = input;
-        _data = data;
+        _data = PlayerController.instance.MovementData;
+        _input = PlayerController.instance.Input;
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void Update()

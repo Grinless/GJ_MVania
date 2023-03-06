@@ -3,7 +3,8 @@ using UnityEngine;
 /// <summary>
 /// Class responsible for managing a player jump behaviour. 
 /// </summary>
-public class PJumpController : MonoBehaviour
+[RequireComponent(typeof(PlayerGroundChecker))]
+public class PlayerJumpController : MonoBehaviour
 {
     [SerializeField] private bool _grounded;
 
@@ -11,7 +12,7 @@ public class PJumpController : MonoBehaviour
     PlayerMovementData _data;
     Rigidbody2D _rigidbody;
 
-    public GroundChecker _groundChecker;
+    public PlayerGroundChecker _groundChecker;
     public float jumpKeyHeldTime;
     public float jumpDistanceCurrent;
     public bool jumpPrepare = false;
@@ -45,7 +46,7 @@ public class PJumpController : MonoBehaviour
         _input = input;
         _data = data;
         _rigidbody = body;
-        _groundChecker = GetComponent<GroundChecker>();
+        _groundChecker = GetComponent<PlayerGroundChecker>();
     }
 
     private void Update()

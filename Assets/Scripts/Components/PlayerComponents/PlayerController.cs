@@ -3,14 +3,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    PMovementController _pMoveCont;
-    PJumpController _pJumpCont;
+    PlayerMovementController _pMoveCont;
+    PlayerJumpController _pJumpCont;
 
     public PlayerHealth health = new PlayerHealth();
     public PlayerMovementData movementData = new PlayerMovementData();
     public PlayerInput input = new PlayerInput();
     public List<HeavyWeaponTypeData> heavyWeapons = new List<HeavyWeaponTypeData>();
     public List<NormalWeaponTypeData> normalWeapons = new List<NormalWeaponTypeData>();
+
+    public static PlayerController instance;
 
     public PlayerHealth PlayerHealthData
     {
@@ -29,18 +31,14 @@ public class PlayerController : MonoBehaviour
 
     public void Awake()
     {
-        _pMoveCont = gameObject.AddComponent<PMovementController>();
-        _pJumpCont = gameObject.AddComponent<PJumpController>();
+        instance = this;
+
+        _pMoveCont = gameObject.AddComponent<PlayerMovementController>();
+        _pJumpCont = gameObject.GetComponent<PlayerJumpController>();
     }
 
     public void Start()
     {
-        _pMoveCont.Setup(
-            ref input,
-            ref movementData,
-            gameObject.GetComponent<Rigidbody2D>()
-            );
-
         _pJumpCont.Setup(
             ref input,
             ref movementData,
