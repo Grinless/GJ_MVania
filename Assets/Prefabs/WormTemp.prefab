@@ -57,6 +57,9 @@ MonoBehaviour:
     enragedSpeed: 25
     agressionTime: 0
     state: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 256
   initalRight: 0
 --- !u!50 &8779838923592290390
 Rigidbody2D:

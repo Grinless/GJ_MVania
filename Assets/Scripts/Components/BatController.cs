@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class BatData
 {
+    public int damage; 
     public float batHealth;
     public float batSpeed;
     public BoxCollider2D collisionObject;
@@ -46,9 +47,10 @@ public class BatController : MonoBehaviour
 
         if (collision != null)
         {
-            if (collision.gameObject.GetComponent<PlayerController>())
+            if (collision.gameObject.layer == 6)
             {
-                Debug.Log("TODO: Update this to apply damage to the player!!!!!");
+                IPlayerDamage damage = collision.gameObject.GetComponent<IPlayerDamage>();
+                damage.ApplyDamage(data.damage);
             }
 
             gameObject.SetActive(false);

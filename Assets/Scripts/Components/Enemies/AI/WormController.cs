@@ -19,6 +19,7 @@ public class WormData
 {
 
     public float health;
+    public int damage;
     public float speed;
     public float enragedSpeed;
     public float agressionTime;
@@ -36,7 +37,7 @@ public class WormController : MonoBehaviour
     private Vector2 _left = Vector2.left;
     private Vector2 _right = Vector2.right;
     private Vector2 _currentDir = Vector2.left;
-    private float currentTimer = 0;
+    private float currentEnrageTimer = 0;
     public bool initalRight = false;
 
     void Start()
@@ -62,11 +63,12 @@ public class WormController : MonoBehaviour
         //Update the FSM if the player is encountered. 
         if (collidedWithPlayer)
         {
+            Debug.Log("Collision with player occured.");
             //Update the FSM's current state. 
             data.state = WormState.CHASE;
 
             //Set the timer. 
-            currentTimer = data.agressionTime;
+            currentEnrageTimer = data.agressionTime;
         }
 
         //Update the set state. 
@@ -76,13 +78,23 @@ public class WormController : MonoBehaviour
             State_Chase();
     }
 
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == 6)
+        {
+            IPlayerDamage interf = PlayerController.instance as IPlayerDamage;
+            interf.ApplyDamage(data.damage);
+        }
+    }
+
     private void UpdateTimer()
     {
         //Update the current timer. 
-        if (currentTimer > 0)
-            currentTimer -= Time.deltaTime;
+        if (currentEnrageTimer > 0)
+            currentEnrageTimer -= Time.deltaTime;
 
-        if (currentTimer <= 0)
+        if (currentEnrageTimer <= 0)
             data.state = WormState.PATROL; //If the timer is reset... 
     }
 
@@ -101,9 +113,8 @@ public class WormController : MonoBehaviour
     RaycastHit2D hit2D;
 
     private Vector2 StartPos => gameObject.transform.position;
-    private Vector2 EndPos => _currentDir.normalized;
 
-    private float offset = 0.1f;
+    private Vector2 EndPos => _currentDir.normalized;
 
     private bool GroundCheck(int layerToCheckFor)
     {

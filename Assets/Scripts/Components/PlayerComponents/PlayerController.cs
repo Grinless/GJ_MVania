@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal
 {
     PlayerMovementController _pMoveCont;
     PlayerJumpController _pJumpCont;
 
     public PlayerHealth health = new PlayerHealth();
+    public IframeManager iframeManager = new IframeManager();
     public PlayerMovementData movementData = new PlayerMovementData();
     public PlayerInput input = new PlayerInput();
     public List<HeavyWeaponTypeData> heavyWeapons = new List<HeavyWeaponTypeData>();
@@ -32,7 +33,6 @@ public class PlayerController : MonoBehaviour
     public void Awake()
     {
         instance = this;
-
         _pMoveCont = gameObject.AddComponent<PlayerMovementController>();
         _pJumpCont = gameObject.GetComponent<PlayerJumpController>();
     }
@@ -44,5 +44,26 @@ public class PlayerController : MonoBehaviour
             ref movementData,
             gameObject.GetComponent<Rigidbody2D>()
             );
+    }
+
+    private void Update()
+    {
+        iframeManager.UpdateIframes();
+    }
+
+    void IPlayerDamage.ApplyDamage(int value)
+    {
+        health.current -= value;
+        iframeManager.ActivateIframes();
+    }
+
+    void IPlayerHeal.ApplyFullHealth()
+    {
+        health.current = health.max;
+    }
+
+    void IPlayerHeal.ApplyHealth(int value)
+    {
+        health.current += value;
     }
 }

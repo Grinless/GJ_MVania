@@ -56,7 +56,7 @@ public class Door : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_state == DoorState.LOCKED)
-            ResolveDoorOpening();
+            ResolveDoorOpening(collision);
 
     }
 
@@ -69,7 +69,7 @@ public class Door : MonoBehaviour
         }
     }
 
-    private void ResolveDoorOpening()
+    private void ResolveDoorOpening(Collider2D collision)
     {
 
         if (doorType == DoorKeyType.NONE)
