@@ -72,9 +72,6 @@ public class MultiRayDetector : MonoBehaviour
             }
 
             return pos;
-
-            return new Vector2(transform.position.x,
-                transform.position.y - (JUMP_DETECTION_DIST + JUMP_DETECTION_LENGTH));
         }
     }
 
