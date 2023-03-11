@@ -4,81 +4,150 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+public enum MenuState
+{
+    INACTIVE,
+    PAUSE,
+    SETTINGS
+}
+
 public class UI_PauseMenuManager : MonoBehaviour
 {
-    public GameObject menuObject; 
-    public bool menuOpen = false;
-    public int index = 0;
-    public int maxIndex;
-    public TextMeshProUGUI[] textOptions; 
+    public static UI_PauseMenuManager instance;
+    public MenuState lastState;
+    public MenuState menuState = MenuState.INACTIVE;
+
+    public GameObject pauseMenuObject;
+    public GameObject settingsMenuObject;
+    public int pauseMenuIndex = 0;
+    public int settingsMenuIndex = 0;
+    public TextMeshProUGUI[] pauseMenuTextOptions;
+    public TextMeshProUGUI[] settingsMenuTextOptions;
 
     private void Start()
     {
-        menuObject.SetActive(false);
-        maxIndex = textOptions.Length -1;
+        //Create singleton for script access. 
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this);
+        }
+
+        pauseMenuObject.SetActive(false);
+        settingsMenuObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        lastState = menuState; //Store the last state for comparisons. 
+
+        if (menuState == MenuState.INACTIVE)
         {
-            menuOpen = !menuOpen;
-            UpdateMenuState();
+            State_Update_Inactive();
+            return;
         }
-
-        if (menuOpen)
+        if (menuState == MenuState.PAUSE)
         {
-            //Get new menu index. 
-            if (Input.GetKeyUp(PlayerController.instance.Input.leftKey.keyA))
-                index--; 
-
-            if (Input.GetKeyUp(PlayerController.instance.Input.rightKey.keyA))
-                index++;
-
-            //Wrap the index if overflowing past array bounds. 
-            if (index < 0)
-                index = maxIndex; 
-            else if(index > maxIndex)
-                index = 0;
-
-            //Adjust the menu selection colors. 
-            foreach (TextMeshProUGUI item in textOptions)
-            {
-                item.color = Color.white; 
-            }
-
-            textOptions[index].color = Color.red;
-
-            if (Input.GetKey(PlayerController.instance.Input.jumpKey.keyA))
-            {
-                //Do some activation logic. 
-                if(index == 1)
-                    Application.Quit();
-                if(index == 0)
-                {
-                    //Open the settings menu. 
-                }
-            }
+            State_Update_Pause();
+            return;
         }
-        
     }
 
-    private void UpdateMenuState()
+    private void State_Update_Inactive()
     {
-        if (menuOpen)
+        if (Input.GetKeyUp(KeyCode.Escape) && CheckIfInactive()) //Open the menu. 
         {
-            Time.timeScale = 0;
-            menuObject.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            menuObject.SetActive(false);
+            UpdateMenuDisplay(MenuState.PAUSE);
         }
     }
 
-    private void CheckInputKeys()
+    private void State_Update_Pause()
     {
+        IMenuAction action;
 
+        if (Input.GetKeyUp(KeyCode.Escape)) //Close the menu. 
+        {
+            UpdateMenuDisplay(MenuState.INACTIVE);
+            return;
+        }
+
+        UpdateActiveMenu(pauseMenuTextOptions, ref pauseMenuIndex);
+
+        if (Input.GetKeyDown(PlayerController.instance.Input.jumpKey.keyA))
+        {
+            action = pauseMenuTextOptions[pauseMenuIndex].GetComponent<IMenuAction>();
+
+            if (action != null)
+            {
+                action.ExecuteAction();
+            }
+        }
     }
+
+    private void UpdateMenuDisplay(MenuState nextState)
+    {
+        menuState = nextState;
+
+        switch (nextState) //Update the current menu display. 
+        {
+            case MenuState.INACTIVE: //Hide everything. 
+                Time.timeScale = 1;
+                pauseMenuObject.SetActive(false);
+                settingsMenuObject.SetActive(false);
+                break;
+            case MenuState.PAUSE: //Show pause menu. 
+                Time.timeScale = 0;
+                pauseMenuObject.SetActive(true);
+                settingsMenuObject.SetActive(false);
+                break;
+            case MenuState.SETTINGS: //Show Settings menu. 
+                Time.timeScale = 0;
+                pauseMenuObject.SetActive(false);
+                settingsMenuObject.SetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void UpdateActiveMenu(TextMeshProUGUI[] options, ref int currentIndex)
+    {
+        int localIndex = currentIndex;
+        int maxIndex = options.Length - 1;
+
+        //Get new menu index. 
+        if (Input.GetKeyUp(PlayerController.instance.Input.leftKey.keyA))
+            localIndex--;
+
+        if (Input.GetKeyUp(PlayerController.instance.Input.rightKey.keyA))
+            localIndex++;
+
+        //Wrap the index if overflowing past array bounds. 
+        if (localIndex < 0)
+            localIndex = maxIndex;
+        else if (localIndex > maxIndex)
+            localIndex = 0;
+
+        //Adjust the menu selection colors. 
+        foreach (TextMeshProUGUI item in pauseMenuTextOptions)
+        {
+            item.color = Color.white;
+        }
+
+        options[localIndex].color = Color.red;
+
+        currentIndex = localIndex;
+    }
+
+    private bool CheckIfInactive() => (lastState == MenuState.INACTIVE && menuState == MenuState.INACTIVE);
+
+    public void ClosePauseMenu() => UpdateMenuDisplay(MenuState.INACTIVE);
+
+    public void OpenSettingsMenu() => UpdateMenuDisplay(MenuState.SETTINGS);
+
+    public void CloseSettingsMenu() => UpdateMenuDisplay(MenuState.PAUSE);
 }
