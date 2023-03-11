@@ -54,16 +54,32 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal
     void IPlayerDamage.ApplyDamage(int value)
     {
         health.current -= value;
+        if(health.current <= 0 && health.currentHealthTanks > 0)
+        {
+            health.current = health.max;
+            health.currentHealthTanks--; 
+        }
         iframeManager.ActivateIframes();
     }
 
     void IPlayerHeal.ApplyFullHealth()
     {
         health.current = health.max;
+        health.currentHealthTanks = health.healthTanksUnlocked;
     }
 
     void IPlayerHeal.ApplyHealth(int value)
     {
-        health.current += value;
+        float current = health.current;
+        current += value;
+
+        if(current > health.max && health.currentHealthTanks < health.healthTanksUnlocked)
+        {
+            current -= health.max;
+            health.currentHealthTanks++;
+        }
+
+        health.current = current;
+        
     }
 }
