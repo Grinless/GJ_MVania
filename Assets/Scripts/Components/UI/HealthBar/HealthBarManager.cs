@@ -72,7 +72,7 @@ public class HealthBarManager : MonoBehaviour
             else
                 refilIconsEmpty[i].enabled = true;
 
-            if(i > CurrentHealthReserves - 1) //Update active tanks. 
+            if(i > CurrentHealthReserves) //Update active tanks. 
                 refilIconsFull[i].enabled = false;
             else
                 refilIconsFull[i].enabled = true;

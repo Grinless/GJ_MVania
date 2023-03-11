@@ -17,7 +17,6 @@ public enum WormState
 [System.Serializable]
 public class WormData
 {
-
     public float health;
     public int damage;
     public float speed;
@@ -30,15 +29,31 @@ public class WormData
 /// <summary>
 /// Controller utilizing FSM behaviour. 
 /// </summary>
-public class WormController : MonoBehaviour
+public class WormController : AIBase
 {
     [SerializeField] private Rigidbody2D _body2D;
     public WormData data = new WormData();
     private Vector2 _left = Vector2.left;
     private Vector2 _right = Vector2.right;
     private Vector2 _currentDir = Vector2.left;
-    private float currentEnrageTimer = 0;
+    private float _currentEnrageTimer = 0;
     public bool initalRight = false;
+
+    public override float Health { 
+        get => data.health; 
+        set => data.health = value; 
+    }
+
+    public override int Damage
+    {
+       get => data.damage;
+    }
+
+    private void Awake()
+    {
+        dieOnContact = false;
+        dieOnGroundContact = false;
+    }
 
     void Start()
     {
@@ -68,7 +83,7 @@ public class WormController : MonoBehaviour
             data.state = WormState.CHASE;
 
             //Set the timer. 
-            currentEnrageTimer = data.agressionTime;
+            _currentEnrageTimer = data.agressionTime;
         }
 
         //Update the set state. 
@@ -78,23 +93,13 @@ public class WormController : MonoBehaviour
             State_Chase();
     }
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.layer == 6)
-        {
-            IPlayerDamage interf = PlayerController.instance as IPlayerDamage;
-            interf.ApplyDamage(data.damage);
-        }
-    }
-
     private void UpdateTimer()
     {
         //Update the current timer. 
-        if (currentEnrageTimer > 0)
-            currentEnrageTimer -= Time.deltaTime;
+        if (_currentEnrageTimer > 0)
+            _currentEnrageTimer -= Time.deltaTime;
 
-        if (currentEnrageTimer <= 0)
+        if (_currentEnrageTimer <= 0)
             data.state = WormState.PATROL; //If the timer is reset... 
     }
 
@@ -115,6 +120,7 @@ public class WormController : MonoBehaviour
     private Vector2 StartPos => gameObject.transform.position;
 
     private Vector2 EndPos => _currentDir.normalized;
+
 
     private bool GroundCheck(int layerToCheckFor)
     {

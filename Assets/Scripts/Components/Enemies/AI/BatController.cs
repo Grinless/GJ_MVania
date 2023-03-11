@@ -6,18 +6,32 @@ using UnityEngine;
 public class BatData
 {
     public int damage; 
-    public float batHealth;
+    public float health;
     public float batSpeed;
     public BoxCollider2D collisionObject;
     public Rigidbody2D body2D;
 }
 
-public class BatController : MonoBehaviour
+public class BatController : AIBase
 {
 
     public BatData data = new BatData();
     public Vector2 trackedPosition;
     [SerializeField]private bool active = false;
+
+    public override float Health {
+        get => data.health; 
+        set => data.health = value; 
+    }
+    public override int Damage { 
+        get => data.damage; 
+    }
+
+    private void Awake()
+    {
+        dieOnContact = true;  
+        dieOnGroundContact = true;
+    }
 
 
     void Update()
@@ -37,23 +51,6 @@ public class BatController : MonoBehaviour
         {
             active = true;
             data.body2D.gravityScale = 1;
-        }
-    }
-
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!active)
-            return;
-
-        if (collision != null)
-        {
-            if (collision.gameObject.layer == 6)
-            {
-                IPlayerDamage damage = collision.gameObject.GetComponent<IPlayerDamage>();
-                damage.ApplyDamage(data.damage);
-            }
-
-            gameObject.SetActive(false);
         }
     }
 

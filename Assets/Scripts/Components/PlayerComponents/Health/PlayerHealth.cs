@@ -8,15 +8,3 @@ public struct PlayerHealth
     public float healthTanksUnlocked;
     public float currentHealthTanks;
 }
-
-public interface IPlayerDamage
-{
-    void ApplyDamage(int value); 
-}
-
-public interface IPlayerHeal
-{
-    void ApplyHealth(int value);
-
-    void ApplyFullHealth();
-}
