@@ -58,7 +58,8 @@ public class PlayerWeaponController : MonoBehaviour
         {
             ((IFireWeapon)heavyWeapon).FireWeapon(
                             gameObject.transform.position,
-                            direction,
+                            direction, 
+                            heavyWeapon.bulletDamage,
                             out _time);
             heavyWeaponHandler.SetTime(_time);
             return;
@@ -69,6 +70,7 @@ public class PlayerWeaponController : MonoBehaviour
             ((IFireWeapon)normalWeapon).FireWeapon(
                 gameObject.transform.position,
                 direction,
+                normalWeapon.bulletDamage,
                 out _time);
             normalWeaponHandler.SetTime(_time);
             return;
