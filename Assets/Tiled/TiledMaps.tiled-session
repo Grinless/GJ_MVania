@@ -20,10 +20,10 @@
         },
         "Maps/Area_1_2.tmx": {
             "scale": 1.5,
-            "selectedLayer": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1023.3333333333333,
-                "y": 590.6666666666667
+                "x": 1296.6666666666665,
+                "y": 519.3333333333333
             }
         },
         "Tiles/A1_Blue/A1_Blue.tsx": {
