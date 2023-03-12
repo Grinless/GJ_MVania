@@ -36,7 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1693786789
 MonoBehaviour:
@@ -50,11 +50,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8331003613e47c442bb8d8ca215182e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _body2D: {fileID: 8779838923592290390}
+  _body2D: {fileID: 0}
   data:
     health: 0
     damage: 10
-    speed: 20
+    speed: 60
     enragedSpeed: 25
     agressionTime: 0
     state: 0
@@ -62,6 +62,9 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 256
   initalRight: 0
+  currentBreak: 205
+  stumbleSpeedReduction: 40
+  STUMBLE_FRAMES: 30
 --- !u!50 &8779838923592290390
 Rigidbody2D:
   serializedVersion: 4

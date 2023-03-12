@@ -39,14 +39,21 @@ public class WormController : AIBase
     private float _currentEnrageTimer = 0;
     public bool initalRight = false;
 
-    public override float Health { 
-        get => data.health; 
-        set => data.health = value; 
+    int currentBreak = 0;
+    int remainingStumbleFrames = 0;
+    const float stumbleSpeedReduction = 40f; 
+    const int STUMBLE_FRAMES = 30;
+    const int STUMBLE_BREAK = 280;
+
+    public override float Health
+    {
+        get => data.health;
+        set => data.health = value;
     }
 
     public override int Damage
     {
-       get => data.damage;
+        get => data.damage;
     }
 
     void Start()
@@ -64,6 +71,7 @@ public class WormController : AIBase
 
     private void UpdateState()
     {
+        _body2D.velocity = Vector2.zero;
         bool collidedWithPlayer = GroundCheck(6);
 
         //Update the facing direction of the entity. 
@@ -97,7 +105,59 @@ public class WormController : AIBase
             data.state = WormState.PATROL; //If the timer is reset... 
     }
 
-    private void State_Patrol() => _body2D.AddForce(_currentDir * data.speed * Time.deltaTime);
+    /// <summary>
+    /// Function used to generate random worm stumble chance. 
+    /// </summary>
+    /// <returns></returns>
+    private bool RandStumble()
+    {
+        float randStumbleChance = UnityEngine.Random.Range(-50, 50);
+
+        //If the sum is less than 0.
+        if (randStumbleChance < 0)
+        {
+            return true; //Stumble. 
+        }
+        return false;
+    }
+
+    #region Stumble Calculation Methods. 
+    private bool CalculateStumble()
+    {
+        if (currentBreak <= 0 && currentBreak <=0 && RandStumble())
+        {
+            currentBreak = STUMBLE_BREAK; //Generate stumble. 
+            remainingStumbleFrames = STUMBLE_FRAMES;
+            return true;
+        }
+        else if (currentBreak > 0)
+            currentBreak--;
+        return false;
+    }
+    #endregion
+
+    private void State_Patrol()
+    {
+        if (CalculateStumble())
+        {
+            //--AJ--
+            AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.WormMove);
+            return;
+        }
+        else
+        {
+            if (remainingStumbleFrames > 0)
+            {
+                _body2D.velocity = _currentDir * (data.speed - stumbleSpeedReduction) * Time.deltaTime;
+                remainingStumbleFrames--;
+            }
+            else
+            {
+                _body2D.velocity = _currentDir * data.speed * Time.deltaTime;
+
+            }
+        }
+    }
 
     private void State_Chase() => _body2D.velocity = _currentDir * data.enragedSpeed * Time.deltaTime;
 

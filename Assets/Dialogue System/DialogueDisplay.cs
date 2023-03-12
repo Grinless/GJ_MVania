@@ -62,28 +62,29 @@ public class DialogueDisplayEditor : Editor
     private DialogueDisplay display;
     private string debugText;
     private bool isUpgrade;
-    private void Awake()
-    {
-        display = (DialogueDisplay)target;
-    }
+
+    private void Awake() => display = (DialogueDisplay)target;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+        
         GUILayout.Space(5);
+        
         GUILayout.Label("~ DEBUG CONTROLS ~");
+        
         isUpgrade = EditorGUILayout.Toggle("Is upgrade? (skip sound)", isUpgrade);
+        
         using (new EditorGUILayout.HorizontalScope())
         {
             debugText = EditorGUILayout.TextField("Debug Text", debugText);
+            
             if (GUILayout.Button("Show"))
-            {
                 display.ShowDialogue(debugText, isUpgrade);
-            }
         }
+        
         if (GUILayout.Button("Close"))
-        {
             display.HideDialogue();
-        }
     }
 }
 #endif
