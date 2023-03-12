@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using AudioByJaime;
 
 public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeaponSetter
 {
@@ -51,17 +52,25 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
         iframeManager.UpdateIframes();
     }
 
-    #region Health Management.
-    void IPlayerDamage.ApplyDamage(int value)
+    public void DamagePlayer(int value)
     {
+        print("Applying Damage! " + value);
         health.current -= value;
-        if(health.current <= 0 && health.currentHealthTanks > 0)
+
+        //--AJ--
+        AudioController.Instance.PlaySound(SoundEffectType.Hurt);
+
+        if (health.current <= 0 && health.currentHealthTanks > 0)
         {
             health.current = health.max;
-            health.currentHealthTanks--; 
+            health.currentHealthTanks--;
         }
+
         iframeManager.ActivateIframes();
     }
+
+    #region Health Management.
+    void IPlayerDamage.ApplyDamage(int value) => DamagePlayer(value);
 
     void IPlayerHeal.ApplyFullHealth()
     {
@@ -98,7 +107,7 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
         }
     }
 
-    void IWeaponSetter.setHeavyWeaponActive(int id)
+    void IWeaponSetter.SetHeavyWeaponActive(int id)
     {
         foreach (HeavyWeaponTypeData data in heavyWeapons)
         {
@@ -114,5 +123,5 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
 public interface IWeaponSetter
 {
     void SetNormalWeaponActive(int id);
-    void setHeavyWeaponActive(int id);
+    void SetHeavyWeaponActive(int id);
 }

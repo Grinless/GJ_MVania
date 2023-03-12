@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerGroundChecker))]
 public class PlayerJumpController : MonoBehaviour
 {
-    [SerializeField] private bool _grounded;
+    [SerializeField] private bool _grounded = true;
 
     PlayerInput _input;
     PlayerMovementData _data;
@@ -49,10 +49,20 @@ public class PlayerJumpController : MonoBehaviour
         _groundChecker = GetComponent<PlayerGroundChecker>();
     }
 
+    private bool lastGrounded;
+
     private void Update()
     {
-        if (!Grounded)
+        lastGrounded = _grounded;
+
+        if (!Grounded) 
             return; 
+
+        if(!lastGrounded && Grounded)
+        {
+            //--AJ--
+            AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.Land);
+        }
 
         if (_input.jumpKey.KeyDown() && !jumpPrepare)
         {
@@ -66,6 +76,10 @@ public class PlayerJumpController : MonoBehaviour
             StopCoroutine(PressTimer());
             jumpDistanceCurrent += JumpBonus * HeldTime;
             _rigidbody.AddForce(new Vector2(0, jumpDistanceCurrent), ForceMode2D.Impulse);
+
+            //--AJ--
+            AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.Jump);
+
             ResetJumpState();
         }
     }

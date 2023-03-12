@@ -49,12 +49,6 @@ public class WormController : AIBase
        get => data.damage;
     }
 
-    private void Awake()
-    {
-        dieOnContact = false;
-        dieOnGroundContact = false;
-    }
-
     void Start()
     {
         _body2D = gameObject.GetComponent<Rigidbody2D>();
@@ -121,7 +115,6 @@ public class WormController : AIBase
 
     private Vector2 EndPos => _currentDir.normalized;
 
-
     private bool GroundCheck(int layerToCheckFor)
     {
         hit2D = Physics2D.Raycast(StartPos, EndPos, 1, data.layerMask);
@@ -144,4 +137,27 @@ public class WormController : AIBase
         Gizmos.DrawWireSphere(hit2D.point, 0.2f);
     }
 
+    public override void Trigger(GameObject collisionObj, bool first, bool player)
+    {
+
+    }
+
+    public override void Collision(GameObject collisionObj, bool first, bool player)
+    {
+        if (player)
+            PlayerDamageEvent(collisionObj);
+    }
+
+    public override void PlayerDamageEvent(GameObject player)
+    {
+        print("Worm Hit!!!");
+    }
+
+    internal override void OnDeath()
+    {
+        //--AJ--
+        AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.WormDie);
+
+        base.OnDeath();
+    }
 }

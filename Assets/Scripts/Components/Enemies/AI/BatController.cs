@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class BatData
 {
-    public int damage; 
+    public int damage;
     public float health;
     public float batSpeed;
     public BoxCollider2D collisionObject;
@@ -14,25 +14,16 @@ public class BatData
 
 public class BatController : AIBase
 {
-
     public BatData data = new BatData();
-    public Vector2 trackedPosition;
-    [SerializeField]private bool active = false;
+    [SerializeField] private bool active = false;
 
-    public override float Health {
-        get => data.health; 
-        set => data.health = value; 
-    }
-    public override int Damage { 
-        get => data.damage; 
-    }
-
-    private void Awake()
+    public override float Health
     {
-        dieOnContact = true;  
-        dieOnGroundContact = true;
+        get => data.health;
+        set => data.health = value;
     }
 
+    public override int Damage => data.damage;
 
     void Update()
     {
@@ -42,20 +33,39 @@ public class BatController : AIBase
         data.body2D.velocity = Vector2.down * data.batSpeed * Time.deltaTime;
     }
 
-
-    public void OnTriggerEnter2D(Collider2D collision)
+    public override void PlayerDamageEvent(GameObject player)
     {
-        print("Triggered Detection: " + collision.gameObject.name);
+        print("BAT: Hit player!");
+        player.GetComponent<PlayerController>().DamagePlayer(Damage);
+        Active = false;
+    }
 
-        if (collision.gameObject.layer != 0)
+    public override void Trigger(GameObject collisionObj, bool first, bool player)
+    {
+        Debug.Log("Triggered by: " + collisionObj.name + ". First State: " + first);
+        Debug.Log("First State: " + first);
+        Debug.Log("Player: " + player);
+
+        if (first && player)
         {
             active = true;
             data.body2D.gravityScale = 1;
+
+            //--AJ--
+            AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.BatSwoop);
         }
     }
 
-    private void OnDrawGizmos()
+    public override void Collision(GameObject collisionObj, bool first, bool player)
     {
-        Gizmos.DrawWireSphere(trackedPosition, 0.2f);
+        if(player)
+            PlayerDamageEvent(collisionObj);
+    }
+
+    internal override void OnDeath()
+    {
+        //--AJ--
+        AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.BatDie);
+        base.OnDeath();
     }
 }

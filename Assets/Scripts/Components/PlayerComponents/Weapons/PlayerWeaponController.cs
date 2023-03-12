@@ -70,6 +70,9 @@ public class PlayerWeaponController : MonoBehaviour
             if (!normalWeapon.collected)
                 return;
 
+            //--AJ--
+            AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.Shoot);
+
             ((IFireWeapon)normalWeapon).FireWeapon(
                 gameObject.transform.position,
                 direction,

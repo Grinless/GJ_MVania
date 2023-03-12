@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Maps/Area_1_2.tmx",
+    "activeFile": "Maps/Area_1_3.tmx",
     "expandedProjectPaths": [
-        "Tiles/A1_Blue",
-        "Maps",
         ".",
-        "Tiles"
+        "Maps",
+        "Tiles",
+        "Tiles/A1_Blue"
     ],
     "fileStates": {
         "D:/Game Projects/GJ_Metroidvania/Assets/Tiled/Tiles/A1_Blue/A1_Blue.tsx": {
@@ -20,18 +20,18 @@
         },
         "Maps/Area_1_2.tmx": {
             "scale": 1.5,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 387.99999999999994,
-                "y": 188.66666666666666
+                "x": 1167.3333333333333,
+                "y": 369.3333333333333
             }
         },
         "Maps/Area_1_3.tmx": {
-            "scale": 2.0425,
+            "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 572.8274173806609,
-                "y": 403.42717258261933
+                "x": 623.9999999999999,
+                "y": 537.3333333333333
             }
         },
         "Tiles/A1_Blue/A1_Blue.tsx": {
@@ -39,7 +39,7 @@
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Tiled/Sprites",
+    "last.imagePath": "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Sprites",
     "last.worldFilePath": "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Tiled/Maps",
     "loadedWorlds": [
         "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Tiled/Maps/Area_1_WRLD.world"
@@ -49,13 +49,14 @@
     "map.tileWidth": 16,
     "openFiles": [
         "Maps/A1_Blue_v1.tsx",
-        "Maps/Area_1_2.tmx"
+        "Maps/Area_1_2.tmx",
+        "Maps/Area_1_3.tmx"
     ],
     "project": "TiledMaps.tiled-project",
     "recentFiles": [
-        "Maps/Area_1_3.tmx",
         "Maps/A1_Blue_v1.tsx",
         "Maps/Area_1_2.tmx",
+        "Maps/Area_1_3.tmx",
         "Tiles/A1_Blue/A1_Blue.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

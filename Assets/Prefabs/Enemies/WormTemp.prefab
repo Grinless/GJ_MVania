@@ -53,6 +53,7 @@ MonoBehaviour:
   _body2D: {fileID: 8779838923592290390}
   data:
     health: 0
+    damage: 10
     speed: 20
     enragedSpeed: 25
     agressionTime: 0

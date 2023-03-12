@@ -41,8 +41,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 1435083
+    locked: 0
   - name: Player
     uniqueID: 1840506439
+    locked: 0
+  - name: FX_Midground
+    uniqueID: 3762099667
     locked: 0
   - name: Foreground_1
     uniqueID: 3026838701

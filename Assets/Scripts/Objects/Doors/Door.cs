@@ -84,6 +84,8 @@ public class Door : MonoBehaviour
 
     private void OpenDoor()
     {
+        //--AJ--
+        AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.DoorOpen);
         collision.SetActive(false);
         SwapTriggerState();
         _state = DoorState.OPEN;
@@ -91,6 +93,8 @@ public class Door : MonoBehaviour
 
     private void ResetDoor()
     {
+        //--AJ--
+        AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.DoorClose);
         collision.SetActive(true);
         _state = DoorState.LOCKED;
         SwapTriggerState();
