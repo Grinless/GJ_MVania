@@ -10335,7 +10335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2753828289854476399, guid: 352eb26302f131346b10f3d60cb4b483, type: 3}
       propertyPath: doorType
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3870360025949430783, guid: 352eb26302f131346b10f3d60cb4b483, type: 3}
       propertyPath: m_RootOrder
@@ -29852,7 +29852,7 @@ PrefabInstance:
     - target: {fileID: 5478330930342580108, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
       propertyPath: normalWeapons.Array.data[0].bulletPrefab
       value: 
-      objectReference: {fileID: 1857178658231158384, guid: 094d05c737ca1ab4dbe9d5ff853a16d1, type: 3}
+      objectReference: {fileID: 1857178658231158384, guid: 81d19f364d47d8b4bacd5d8dc20556f2, type: 3}
     - target: {fileID: 5478330930342580109, guid: 516e5b1ada17f65498d9ad1d797731e8, type: 3}
       propertyPath: m_Material
       value: 

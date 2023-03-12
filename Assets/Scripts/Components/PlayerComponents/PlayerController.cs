@@ -4,11 +4,10 @@ using AudioByJaime;
 
 public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeaponSetter
 {
-    PlayerMovementController _pMoveCont;
-    PlayerJumpController _pJumpCont;
-
+    private PlayerJumpController _pJumpCont;
     public PlayerHealth health = new PlayerHealth();
     public IframeManager iframeManager = new IframeManager();
+    public PlayerWorldData worldData = new PlayerWorldData(); 
     public PlayerMovementData movementData = new PlayerMovementData();
     public PlayerInput input = new PlayerInput();
     public List<HeavyWeaponTypeData> heavyWeapons = new List<HeavyWeaponTypeData>();
@@ -40,25 +39,16 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
         }
     }
 
-    public PlayerHealth PlayerHealthData
-    {
-        get { return health; }
-    }
+    public PlayerHealth PlayerHealthData => health;
 
-    public PlayerMovementData MovementData
-    {
-        get { return movementData; }
-    }
+    public PlayerMovementData MovementData => movementData;
 
-    public PlayerInput Input
-    {
-        get { return input; }
-    }
+    public PlayerInput Input => input; 
 
     public void Awake()
     {
         instance = this;
-        _pMoveCont = gameObject.AddComponent<PlayerMovementController>();
+        gameObject.AddComponent<PlayerMovementController>();
         _pJumpCont = gameObject.GetComponent<PlayerJumpController>();
     }
 
@@ -138,6 +128,16 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
                 data.collected = true;
             }
         }
+    }
+
+    public bool CheckBeamUnlockedByID(int id)
+    {
+        foreach (NormalWeaponTypeData item in normalWeapons)
+        {
+            if(item.weaponID == id && item.collected)
+                return true;
+        }
+        return false;
     }
     #endregion
 }

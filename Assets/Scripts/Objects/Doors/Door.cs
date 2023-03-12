@@ -5,7 +5,9 @@ using UnityEngine;
 public enum DoorKeyType
 {
     NONE,
-    PLAYER
+    PLAYER,
+    LOCKED_UNTIL_GENERATOR,
+    MUTAGEN_BEAM
 }
 
 public enum DoorState
@@ -71,14 +73,23 @@ public class Door : MonoBehaviour
 
     private void ResolveDoorOpening(Collider2D collision)
     {
-
-        if (doorType == DoorKeyType.NONE)
-            OpenDoor();
-
-        if (doorType == DoorKeyType.PLAYER)
+        switch (doorType)
         {
-            if (collision.gameObject.layer == 6)
+            case DoorKeyType.NONE:
                 OpenDoor();
+                break;
+            case DoorKeyType.PLAYER:
+                if (collision.gameObject.layer == 6)
+                    OpenDoor();
+                break;
+            case DoorKeyType.LOCKED_UNTIL_GENERATOR:
+                if (PlayerController.instance.worldData.generatorStarted)
+                    OpenDoor();
+                break;
+            case DoorKeyType.MUTAGEN_BEAM:
+                if (collision.gameObject.tag == "MUTAGEN_BEAM")
+                    OpenDoor();
+                break;
         }
     }
 
