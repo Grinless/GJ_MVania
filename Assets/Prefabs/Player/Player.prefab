@@ -12,9 +12,12 @@ GameObject:
   - component: {fileID: 5478330930342580111}
   - component: {fileID: 5478330930342580108}
   - component: {fileID: 5478330930342580109}
-  - component: {fileID: 5478330930342580112}
   - component: {fileID: 5478330930342580115}
   - component: {fileID: 5478330930342580114}
+  - component: {fileID: 251714484}
+  - component: {fileID: 251714485}
+  - component: {fileID: 251714492}
+  - component: {fileID: 251714493}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -35,7 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5478330930342580111
 SpriteRenderer:
@@ -102,9 +105,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    health: 0
+    current: 99
     min: 0
-    max: 0
+    max: 99
+    healthTanksMax: 4
+    healthTanksUnlocked: 0
+    currentHealthTanks: 0
+  iframeManager:
+    iframes: 0.25
+    currentIframes: 0
   movementData:
     runSpeedCurrent: 0
     runRampData:
@@ -113,9 +122,9 @@ MonoBehaviour:
       rampBonus: 1.5
       rampDecayRate: 0.5
     jumpRampData:
-      baseValue: 4.5
+      baseValue: 3.5
       rampTime: 0.2
-      rampBonus: 2
+      rampBonus: 3
       rampDecayRate: 0
   input:
     leftKey:
@@ -127,15 +136,24 @@ MonoBehaviour:
     jumpKey:
       keyA: 32
       keyB: 0
-    shootKey:
-      keyA: 0
+    normalAttackKey:
+      keyA: 304
       keyB: 0
-    missileKey:
+    heavyAttackKey:
       keyA: 0
       keyB: 0
     interactionKey:
       keyA: 101
       keyB: 0
+  heavyWeapons: []
+  normalWeapons:
+  - bulletPrefab: {fileID: 1857178658231158384, guid: 094d05c737ca1ab4dbe9d5ff853a16d1, type: 3}
+    bulletSpeed: 10
+    bulletDamage: 1
+    bulletSize: 1
+    cooldown: 0.5
+    collected: 0
+    weaponID: 0
 --- !u!50 &5478330930342580109
 Rigidbody2D:
   serializedVersion: 4
@@ -152,7 +170,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 14ca00c21ce682044ace78b84c76e2a3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -163,19 +181,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5478330930342580112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5478330930342580106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 200c158a9ed4e5342a506ab59915460d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debug: 1
 --- !u!58 &5478330930342580115
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -208,9 +213,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.23}
+  m_Offset: {x: 0, y: -0.31}
   serializedVersion: 2
-  m_Radius: 0.47
+  m_Radius: 0.35
 --- !u!114 &5478330930342580114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,5 +226,91 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac1cada33ad2c8e4c9bc54ad9f51bec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &251714484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5478330930342580106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28455222775c17a48bc59e645cbe25d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heavyWeapon:
+    bulletPrefab: {fileID: 0}
+    bulletSpeed: 0
+    bulletDamage: 0
+    bulletSize: 0
+    cooldown: 0
+  normalWeapon:
+    bulletPrefab: {fileID: 1857178658231158384, guid: 094d05c737ca1ab4dbe9d5ff853a16d1, type: 3}
+    bulletSpeed: 1.5
+    bulletDamage: 1
+    bulletSize: 0
+    cooldown: 0.1
+    collected: 0
+    weaponID: 0
+  _inputNormal:
+    keyA: 0
+    keyB: 0
+  _inputHeavyAttack:
+    keyA: 0
+    keyB: 0
+  heavyWeaponHandler:
+    _time: 0
+    currentTime: 0
+  normalWeaponHandler:
+    _time: 0
+    currentTime: 0
+--- !u!114 &251714485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5478330930342580106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8346b6d5db4507f41b488b1a25b11221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 256
+  vertical: 0
+  horizontal: 1
+  grounded: 0
+--- !u!114 &251714492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5478330930342580106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 562d2dbe53d8aae4aabe2c89afa48430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grounded: 1
+  _groundChecker: {fileID: 251714485}
+  jumpKeyHeldTime: 0.25
+  jumpDistanceCurrent: 3
+  jumpPrepare: 0
+  jumping: 0
+--- !u!114 &251714493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5478330930342580106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d5c86e561340c4a93602d55017819d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

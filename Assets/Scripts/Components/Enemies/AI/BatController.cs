@@ -30,22 +30,17 @@ public class BatController : AIBase
         if (!active)
             return;
 
-        data.body2D.velocity = Vector2.down * data.batSpeed * Time.deltaTime;
+        data.body2D.velocity = data.batSpeed * Time.deltaTime * Vector2.down;
     }
 
     public override void PlayerDamageEvent(GameObject player)
     {
-        print("BAT: Hit player!");
-        player.GetComponent<PlayerController>().DamagePlayer(Damage);
+        player.GetComponent<IPlayerDamage>().ApplyDamage(Damage);
         Active = false;
     }
 
     public override void Trigger(GameObject collisionObj, bool first, bool player)
     {
-        Debug.Log("Triggered by: " + collisionObj.name + ". First State: " + first);
-        Debug.Log("First State: " + first);
-        Debug.Log("Player: " + player);
-
         if (first && player)
         {
             active = true;

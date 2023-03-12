@@ -52,7 +52,8 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
         iframeManager.UpdateIframes();
     }
 
-    public void DamagePlayer(int value)
+    #region Health Management.
+    void IPlayerDamage.ApplyDamage(int value)
     {
         print("Applying Damage! " + value);
         health.current -= value;
@@ -68,9 +69,6 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
 
         iframeManager.ActivateIframes();
     }
-
-    #region Health Management.
-    void IPlayerDamage.ApplyDamage(int value) => DamagePlayer(value);
 
     void IPlayerHeal.ApplyFullHealth()
     {

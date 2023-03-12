@@ -14,24 +14,18 @@ public abstract class AIBase : MonoBehaviour, IEnemyDamage
         set => gameObject.SetActive(value);
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        GameObject obj = collision.gameObject;
-
-        if (firstCollision)
-        {
-            Collision(obj, firstCollision, CollisionIsPlayer(obj));
+        Collision(collision.gameObject, firstCollision, CollisionIsPlayer(collision.gameObject));
+        if(firstCollision)
             firstCollision = false;
-        }
-        else
-            Collision(obj, firstCollision, CollisionIsPlayer(obj));
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject obj = collision.gameObject;
-
-        Trigger(obj, firstTrigger, CollisionIsPlayer(obj));
+        Trigger(collision.gameObject, firstTrigger, CollisionIsPlayer(collision.gameObject));
+        if (firstTrigger)
+            firstTrigger = false;
     }
 
     public void ApplyDamage(float value)
@@ -42,8 +36,20 @@ public abstract class AIBase : MonoBehaviour, IEnemyDamage
             OnDeath();
     }
 
+    /// <summary>
+    /// Modified trigger event notification. 
+    /// </summary>
+    /// <param name="collisionObj"> The Game Object collided with. </param>
+    /// <param name="first"> Whether it was the first trigger event. </param>
+    /// <param name="player"> Whether the collided object was the player. </param>
     public abstract void Trigger(GameObject collisionObj, bool first, bool player);
 
+    /// <summary>
+    /// Modified collision event notification. 
+    /// </summary>
+    /// <param name="collisionObj"> The Game Object collided with. </param>
+    /// <param name="first"> Whether it was the first collision event. </param>
+    /// <param name="player"> Whether the collided object was the player. </param>
     public abstract void Collision(GameObject collisionObj, bool first, bool player);
 
     public abstract void PlayerDamageEvent(GameObject player);

@@ -151,6 +151,7 @@ public class WormController : AIBase
     public override void PlayerDamageEvent(GameObject player)
     {
         print("Worm Hit!!!");
+        player.GetComponent<IPlayerDamage>().ApplyDamage(Damage);
     }
 
     internal override void OnDeath()
