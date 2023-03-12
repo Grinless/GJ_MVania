@@ -31,11 +31,7 @@ public class CameraController : MonoBehaviour
 
     public void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
+        Instance = this;
 
         if (playerInstance == null)
         {
@@ -52,6 +48,11 @@ public class CameraController : MonoBehaviour
         Bounds bounds;
         Vector2 playerPosition;
         Vector3 cameraPos;
+
+        if(playerInstance == null)
+        {
+            playerInstance = PlayerController.instance.gameObject;
+        }
 
         //Check bounds are assigned. 
         if (_currentRoomBoundary == null)
@@ -84,7 +85,8 @@ public class CameraController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_currentRoomBoundary == null)
+        //Check bounds are assigned. 
+        if (_currentRoomBoundary == null || playerInstance == null)
             return;
 
         //Perform camera transition. 

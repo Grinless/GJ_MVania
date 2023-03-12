@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AudioByJaime;
@@ -80,8 +81,22 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
             health.current = health.max;
             health.currentHealthTanks--;
         }
+        else
+        {
+            //Do death implementation.
+            StartCoroutine(Death());
+        }
 
         iframeManager.ActivateIframes();
+    }
+
+    private IEnumerator Death()
+    {
+        yield return new WaitForSeconds(0.05f);
+        gameObject.SetActive(false);
+        int currentBuildIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+        //TODO: Add death animation. 
+        UnityEngine.SceneManagement.SceneManager.LoadScene(currentBuildIndex);
     }
 
     void IPlayerHeal.ApplyFullHealth()

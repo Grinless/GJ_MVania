@@ -216,9 +216,14 @@ public class WormController : AIBase
 
     internal override void OnDeath()
     {
+        DropOnDeath dod;
+
         //--AJ--
         AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.WormDie);
-
+        if ((dod = GetComponent<DropOnDeath>()) != null)
+        {
+            dod.Activate();
+        }
         base.OnDeath();
     }
 }

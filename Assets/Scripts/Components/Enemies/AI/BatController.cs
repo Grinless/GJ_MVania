@@ -61,8 +61,14 @@ public class BatController : AIBase
 
     internal override void OnDeath()
     {
+        DropOnDeath dod; 
+
         //--AJ--
         AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.BatDie);
+        if((dod = GetComponent<DropOnDeath>()) != null)
+        {
+            dod.Activate();
+        }
         base.OnDeath();
     }
 }
