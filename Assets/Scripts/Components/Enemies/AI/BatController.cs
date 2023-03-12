@@ -55,6 +55,8 @@ public class BatController : AIBase
     {
         if(player)
             PlayerDamageEvent(collisionObj);
+        if (!player)
+            OnDeath();
     }
 
     internal override void OnDeath()
