@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+
 /// <summary>
 /// Class responsible for managing a player jump behaviour. 
 /// </summary>
@@ -33,9 +34,7 @@ public class PlayerJumpController : MonoBehaviour
         {
             jumpKeyHeldTime = value;
             if (value > _data.runRampData.rampTime)
-            {
                 jumpKeyHeldTime = _data.runRampData.rampTime;
-            }
         }
     }
 

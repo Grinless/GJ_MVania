@@ -22,12 +22,8 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
     {
         get
         {
-            if (input.rightKey.Key())
-                _lastShotDirection = Vector2.right;
-            if (input.leftKey.Key())
-                _lastShotDirection = Vector2.left;
-
-            return _lastShotDirection;
+            Vector2 vec = MovementDirection;
+            return (vec != Vector2.zero) ? vec : _lastShotDirection;
         }
     }
 
@@ -109,14 +105,14 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
         float current = health.current;
         current += value;
 
-        if(current > health.max && health.currentHealthTanks < health.healthTanksUnlocked)
+        if (current > health.max && health.currentHealthTanks < health.healthTanksUnlocked)
         {
             current -= health.max;
             health.currentHealthTanks++;
         }
 
         health.current = current;
-        
+
     }
 
     #endregion
@@ -126,7 +122,7 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
     {
         foreach (NormalWeaponTypeData data in normalWeapons)
         {
-            if(data.weaponID == id)
+            if (data.weaponID == id)
             {
                 data.collected = true;
             }
