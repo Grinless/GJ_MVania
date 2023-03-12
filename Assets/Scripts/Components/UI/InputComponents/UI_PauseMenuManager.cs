@@ -33,9 +33,7 @@ public class UI_PauseMenuManager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
         else
-        {
             Destroy(this);
-        }
 
         pauseMenuObject.SetActive(false);
         settingsMenuObject.SetActive(false);
@@ -60,9 +58,7 @@ public class UI_PauseMenuManager : MonoBehaviour
     private void State_Update_Inactive()
     {
         if (Input.GetKeyUp(KeyCode.Escape) && CheckIfInactive()) //Open the menu. 
-        {
             UpdateMenuDisplay(MenuState.PAUSE);
-        }
     }
 
     private void State_Update_Pause()
@@ -82,9 +78,7 @@ public class UI_PauseMenuManager : MonoBehaviour
             action = pauseMenuTextOptions[pauseMenuIndex].GetComponent<IMenuAction>();
 
             if (action != null)
-            {
                 action.ExecuteAction();
-            }
         }
     }
 
@@ -134,9 +128,7 @@ public class UI_PauseMenuManager : MonoBehaviour
 
         //Adjust the menu selection colors. 
         foreach (TextMeshProUGUI item in pauseMenuTextOptions)
-        {
             item.color = Color.white;
-        }
 
         options[localIndex].color = Color.red;
 

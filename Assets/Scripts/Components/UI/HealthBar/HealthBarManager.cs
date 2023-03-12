@@ -12,30 +12,15 @@ public class HealthBarManager : MonoBehaviour
     public Image[] refilIconsFull;
     public Image currentHealthBar;
 
-    private float CurrentHealth
-    {
-        get => PlayerController.instance.PlayerHealthData.current;
-    }
+    private float CurrentHealth => PlayerController.instance.PlayerHealthData.current;
 
-    private float MaxHealth
-    {
-        get => PlayerController.instance.PlayerHealthData.max;
-    }
+    private float MaxHealth => PlayerController.instance.PlayerHealthData.max;
 
-    private float CurrentHealthReserves
-    {
-        get => PlayerController.instance.PlayerHealthData.currentHealthTanks;
-    }
+    private float CurrentHealthReserves => PlayerController.instance.PlayerHealthData.currentHealthTanks;
 
-    private float UnlockedHealthReserves
-    {
-        get => PlayerController.instance.PlayerHealthData.healthTanksUnlocked;
-    }
+    private float UnlockedHealthReserves => PlayerController.instance.PlayerHealthData.healthTanksUnlocked;
 
-    private float PercentScale
-    {
-        get => maxHealthBarWidth / MaxHealth;
-    }
+    private float PercentScale => maxHealthBarWidth / MaxHealth;
 
     private float CurrentHealthBarWidth
     {
@@ -47,9 +32,7 @@ public class HealthBarManager : MonoBehaviour
     private void Awake()
     {
         if(instance == null)
-        {
             instance = this;
-        }
 
         currentHealthBarRect = currentHealthBar.rectTransform;
         maxHealthBarWidth = CurrentHealthBarWidth;
@@ -67,15 +50,11 @@ public class HealthBarManager : MonoBehaviour
     {
         for (int i = 0; i < refilIconsEmpty.Length; i++)
         {
-            if(i > UnlockedHealthReserves - 1) //Update empty slots. 
-                refilIconsEmpty[i].enabled = false;
-            else
-                refilIconsEmpty[i].enabled = true;
-
-            if(i > CurrentHealthReserves) //Update active tanks. 
-                refilIconsFull[i].enabled = false;
-            else
-                refilIconsFull[i].enabled = true;
+            //Update empty slots.
+            refilIconsEmpty[i].enabled = i <= UnlockedHealthReserves - 1;
+            
+            //Update active tanks.
+            refilIconsFull[i].enabled = i <= UnlockedHealthReserves - 1;
         }
     }
 }
