@@ -5,6 +5,8 @@ public class NormalWeaponTypeData : WeaponTypeData
     public float bulletDamage;
     public float bulletSize;
     public float cooldown;
+    public bool collected = false;
+    public int weaponID; 
 
     protected override float GetCooldown() => cooldown;
 

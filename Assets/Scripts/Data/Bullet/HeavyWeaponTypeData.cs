@@ -9,6 +9,8 @@ public class HeavyWeaponTypeData : WeaponTypeData
     public float bulletDamage;
     public float bulletSize;
     public float cooldown;
+    internal int weaponID;
+    internal bool collected = false;
 
     protected override float GetCooldown() => cooldown;
 

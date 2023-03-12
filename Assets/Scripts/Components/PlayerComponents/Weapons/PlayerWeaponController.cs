@@ -67,6 +67,9 @@ public class PlayerWeaponController : MonoBehaviour
 
         if (normalWeapon != null && NormalAttack && normalWeaponHandler.Elapsed)
         {
+            if (!normalWeapon.collected)
+                return;
+
             ((IFireWeapon)normalWeapon).FireWeapon(
                 gameObject.transform.position,
                 direction,

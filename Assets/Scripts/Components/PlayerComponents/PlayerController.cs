@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal
+public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeaponSetter
 {
     PlayerMovementController _pMoveCont;
     PlayerJumpController _pJumpCont;
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal
         iframeManager.UpdateIframes();
     }
 
+    #region Health Management.
     void IPlayerDamage.ApplyDamage(int value)
     {
         health.current -= value;
@@ -82,4 +83,36 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal
         health.current = current;
         
     }
+
+    #endregion
+
+    #region Weapon Unlocking. 
+    void IWeaponSetter.SetNormalWeaponActive(int id)
+    {
+        foreach (NormalWeaponTypeData data in normalWeapons)
+        {
+            if(data.weaponID == id)
+            {
+                data.collected = true;
+            }
+        }
+    }
+
+    void IWeaponSetter.setHeavyWeaponActive(int id)
+    {
+        foreach (HeavyWeaponTypeData data in heavyWeapons)
+        {
+            if (data.weaponID == id)
+            {
+                data.collected = true;
+            }
+        }
+    }
+    #endregion
+}
+
+public interface IWeaponSetter
+{
+    void SetNormalWeaponActive(int id);
+    void setHeavyWeaponActive(int id);
 }

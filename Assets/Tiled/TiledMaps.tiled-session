@@ -22,8 +22,16 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1296.6666666666665,
-                "y": 519.3333333333333
+                "x": 387.99999999999994,
+                "y": 188.66666666666666
+            }
+        },
+        "Maps/Area_1_3.tmx": {
+            "scale": 2.0425,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 572.8274173806609,
+                "y": 403.42717258261933
             }
         },
         "Tiles/A1_Blue/A1_Blue.tsx": {
@@ -45,6 +53,7 @@
     ],
     "project": "TiledMaps.tiled-project",
     "recentFiles": [
+        "Maps/Area_1_3.tmx",
         "Maps/A1_Blue_v1.tsx",
         "Maps/Area_1_2.tmx",
         "Tiles/A1_Blue/A1_Blue.tsx"

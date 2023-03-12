@@ -10,7 +10,7 @@ public class PlayerGroundChecker : MultiRayChecker
     private const float JUMP_DETECTION_DIST = .75f;
     private const float JUMP_DETECTION_LENGTH = 0.25f;
     private const int DIVISIONS = 5;
-    private const float RAYCAST_WIDTH = 1.2f;
+    private const float RAYCAST_WIDTH = 0.7f;
 
     public bool grounded;
 
