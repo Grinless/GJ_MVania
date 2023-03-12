@@ -76,15 +76,18 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
         //--AJ--
         AudioController.Instance.PlaySound(SoundEffectType.Hurt);
 
-        if (health.current <= 0 && health.currentHealthTanks > 0)
+        if(health.current <= 0)
         {
-            health.current = health.max;
-            health.currentHealthTanks--;
-        }
-        else
-        {
-            //Do death implementation.
-            StartCoroutine(Death());
+            if (health.currentHealthTanks > 0)
+            {
+                health.current = health.max;
+                health.currentHealthTanks--;
+            }
+            else
+            {
+                //Do death implementation.
+                StartCoroutine(Death());
+            }
         }
 
         iframeManager.ActivateIframes();
