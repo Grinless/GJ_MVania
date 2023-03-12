@@ -11470,6 +11470,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7793760136169002847, guid: 89c1de3efc230d7469fca963aab7a9ae, type: 3}
+      propertyPath: dialogueDisplay
+      value: 
+      objectReference: {fileID: 798162252}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11556,6 +11560,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 585d44a81e0ff7e4a93a8ef3e730b568, type: 3}
+--- !u!114 &798162252 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 126088879623717790, guid: e314fa70cdc9910488f0d719fa8193f8, type: 3}
+  m_PrefabInstance: {fileID: 809852301}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074d7eb0b4af385429516a004bc05ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &809852301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11988,6 +12003,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1693786789, guid: 6646e0e1231fc4946afde6d0b6126c99, type: 3}
+      propertyPath: data.speed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693786789, guid: 6646e0e1231fc4946afde6d0b6126c99, type: 3}
+      propertyPath: currentBreak
+      value: 205
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693786789, guid: 6646e0e1231fc4946afde6d0b6126c99, type: 3}
+      propertyPath: STUMBLE_FRAMES
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693786789, guid: 6646e0e1231fc4946afde6d0b6126c99, type: 3}
+      propertyPath: stumbleSpeedReduction
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 4484771430526031758, guid: 6646e0e1231fc4946afde6d0b6126c99, type: 3}
       propertyPath: m_Name
       value: WormTemp

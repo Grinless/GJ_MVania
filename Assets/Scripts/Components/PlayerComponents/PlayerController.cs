@@ -16,6 +16,34 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
 
     public static PlayerController instance;
 
+    Vector2 _lastShotDirection = Vector2.right;
+
+    public Vector2 LastShotDirection
+    {
+        get
+        {
+            if (input.rightKey.Key())
+                _lastShotDirection = Vector2.right;
+            if (input.leftKey.Key())
+                _lastShotDirection = Vector2.left;
+
+            return _lastShotDirection;
+        }
+    }
+
+    public Vector2 MovementDirection
+    {
+        get
+        {
+            if (input.rightKey.Key())
+                return Vector2.right;
+            if (input.leftKey.Key())
+                return Vector2.left;
+
+            return Vector2.zero;
+        }
+    }
+
     public PlayerHealth PlayerHealthData
     {
         get { return health; }

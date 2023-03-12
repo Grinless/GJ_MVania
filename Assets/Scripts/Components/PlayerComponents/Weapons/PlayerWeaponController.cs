@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerWeaponController : MonoBehaviour
 {
     private PlayerInput _input;
-    private Vector3 lastDirection;
+    //private Vector3 lastDirection;
 
     public HeavyWeaponTypeData heavyWeapon;
     public NormalWeaponTypeData normalWeapon;
@@ -32,21 +32,22 @@ public class PlayerWeaponController : MonoBehaviour
 
     void Update()
     {
-        Vector3 direction = GetAxis();
+        Vector3 direction = PlayerController.instance.LastShotDirection;
+        //Vector3 direction = GetAxis();
         direction.z = gameObject.transform.position.z;
 
         heavyWeaponHandler.UpdateTimer();
         normalWeaponHandler.UpdateTimer();
 
-        if (direction == Vector3.zero)
-            direction = lastDirection;
+        //if (direction == Vector3.zero)
+        //    direction = lastDirection;
 
         CheckBulletFire(direction);
 
-        if (direction != Vector3.zero)
-        {
-            lastDirection = direction;
-        }
+        //if (direction != Vector3.zero)
+        //{
+        //    lastDirection = direction;
+        //}
     }
 
 

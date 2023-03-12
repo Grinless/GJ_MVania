@@ -35,7 +35,7 @@ public class PlayerMovementController : MonoBehaviour
         _currentVelocity = Vector2.zero;
 
         //Detect directional inputs.
-        if (EvaluateMovingState(_currentVelocity))
+        if (EvaluateMovingState())
             _isMoving = true;
         else
             _isRamping = _isMoving = false;
@@ -51,21 +51,9 @@ public class PlayerMovementController : MonoBehaviour
         _rigidbody.velocity = (new Vector2(CalculateSpeed(), _rigidbody.velocity.y));
     }
 
-    private float GetBaseSpeed()
-    {
-        float val = 0;
-
-        if (_input.rightKey.Key())
-            val = 1;
-        if (_input.leftKey.Key())
-            val = -1;
-
-        return val;
-    }
-
     private float CalculateSpeed()
     {
-        float baseDirection = GetBaseSpeed();
+        float baseDirection = PlayerController.instance.MovementDirection.x;
         float additive = (RampBonus * CurrentRampTime);
         return baseDirection * (_data.runRampData.baseValue + additive);
     }
@@ -83,7 +71,7 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    private bool EvaluateMovingState(Vector2 direction) => (_currentVelocity.x != 0);
+    private bool EvaluateMovingState() => (_currentVelocity.x != 0);
 
     private bool RampingCheck() => (_isMoving && !_isRamping);
 }
