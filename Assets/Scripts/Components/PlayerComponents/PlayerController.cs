@@ -77,8 +77,7 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
         print("Applying Damage! " + value);
         health.current -= value;
 
-        //--AJ--
-        AudioController.Instance.PlaySound(SoundEffectType.Hurt);
+        PlayHurtSFX();
 
         if(health.current <= 0)
         {
@@ -163,9 +162,7 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
     }
     #endregion
 
-    Rigidbody2D bd2D;
-    Vector2 previousVelocity;
-    float previousAngularVel; 
+    Rigidbody2D bd2D; 
 
     #region UI Functions. 
     public void PausePlayer(bool state)
@@ -181,7 +178,12 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
             bd2D.velocity = Vector2.zero;
             bd2D.angularVelocity = 0; 
         }
-    } 
+    }
+    #endregion
+
+    #region Audio Calls
+    private void PlayHurtSFX() =>
+        AudioController.Instance.PlaySound(SoundEffectType.Hurt); //--AJ--
     #endregion
 }
 
