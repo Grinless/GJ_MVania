@@ -34,15 +34,15 @@ public class PlayerInteraction_Controller : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         IInteractable interactable;
 
         //Check if other object has an IInteractable. 
-        if (other != null)
+        if (collision != null)
         {
-            interactable = other.GetComponent<IInteractable>();
-            if(interactable != null)
+            interactable = collision.GetComponent<IInteractable>();
+            if (interactable != null)
             {
                 //If so store. 
                 _lastInteraction = interactable;
@@ -50,7 +50,8 @@ public class PlayerInteraction_Controller : MonoBehaviour
         }
         else //Clear the last interaction. 
         {
-            _lastInteraction = null; 
+            _lastInteraction = null;
         }
     }
+
 }

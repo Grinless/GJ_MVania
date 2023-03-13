@@ -13,10 +13,22 @@ public class DialogueDisplay : MonoBehaviour
     public TextMeshProUGUI text;
     public Image backBox;
     private string target;
-    public void ShowDialogue(string dialogue, bool isUpgrade)
+    private bool open = false; 
+    private bool completing = false;
+
+    public bool Completing => completing; 
+
+    public bool Open => open;
+
+    public void ShowDialogue(string dialogue, bool isUpgrade, float afterPause)
     {
+        if (completing && open)
+            return; 
+
         if (target != dialogue)
         {
+            open = true;
+            completing = true; 
             target = dialogue;
             text.text = "";
             if (isUpgrade)
@@ -24,10 +36,11 @@ public class DialogueDisplay : MonoBehaviour
                 text.alignment = isUpgrade ? TextAlignmentOptions.Center : TextAlignmentOptions.Left;
             }
             backBox.enabled = true;
-            StartCoroutine(AnimateText(isUpgrade));
+            StartCoroutine(AnimateText(isUpgrade, afterPause));
         }
     }
-    IEnumerator AnimateText(bool isUpgrade)
+    
+    IEnumerator AnimateText(bool isUpgrade, float afterPause)
     {
         string targetBuffer = target;
         int charCounter = 0;
@@ -47,14 +60,22 @@ public class DialogueDisplay : MonoBehaviour
             }
             yield return new WaitForSeconds(charInterval);
         }
+
+        yield return new WaitForSeconds(afterPause);
+
+        completing = false;
     }
+
     public void HideDialogue()
     {
         StopAllCoroutines();
         text.text = "";
+        target = "";
         backBox.enabled = false;
+        open = false; 
     }
 }
+#region Editor Display Test UI. 
 #if UNITY_EDITOR
 [CustomEditor(typeof(DialogueDisplay))]
 public class DialogueDisplayEditor : Editor
@@ -80,7 +101,7 @@ public class DialogueDisplayEditor : Editor
             debugText = EditorGUILayout.TextField("Debug Text", debugText);
             
             if (GUILayout.Button("Show"))
-                display.ShowDialogue(debugText, isUpgrade);
+                display.ShowDialogue(debugText, isUpgrade, 0.8f);
         }
         
         if (GUILayout.Button("Close"))
@@ -88,3 +109,4 @@ public class DialogueDisplayEditor : Editor
     }
 }
 #endif
+#endregion

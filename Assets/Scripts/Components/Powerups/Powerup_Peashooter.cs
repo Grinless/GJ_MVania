@@ -14,7 +14,7 @@ public class Powerup_Peashooter : PowerupController
         //--AJ--
         AudioController.Instance.StartAudioCoroutine(AudioCoroutineType.UPGRADE_FANFAIR);
 
-        dialogueDisplay.ShowDialogue("WEAPON COLLECTED: MUTAGEN BEAM. \n PRESS SHIFT + DIRECTION TO FIRE.", true);
+        dialogueDisplay.ShowDialogue("WEAPON COLLECTED: MUTAGEN BEAM. \n PRESS SHIFT + DIRECTION TO FIRE.", true, 0.8f);
         
         gameObject.SetActive(false);
     }

@@ -14,25 +14,9 @@ public interface IInteractionResult
 
 public abstract class Interacter : MonoBehaviour, IInteractable
 {
-    private const float _timeTillReset = 2.5f;
-    private float _currentTime;
-    private bool _active;
     internal bool repeatable = true;
 
-    public void OnInteraction()
-    {
-        if (!_active)
-            return; 
-
-        OnInteractionOccured(GetAttachedRecivers());
-
-        if (repeatable)
-        {
-            StartCoroutine(InteractionReset());
-        }
-
-        _active = false;
-    }
+    public void OnInteraction() => OnInteractionOccured(GetAttachedRecivers());
 
     internal abstract void OnInteractionOccured(IInteractionResult[] recivers);
 
@@ -42,18 +26,5 @@ public abstract class Interacter : MonoBehaviour, IInteractable
             gameObject.GetComponentsInParent<IInteractionResult>();
 
         return recivers;
-    }
-
-    private IEnumerator InteractionReset()
-    {
-        _currentTime = 0;
-
-        while (_currentTime < _timeTillReset)
-        {
-            _currentTime += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-
-        _active = true;
     }
 }
