@@ -6,6 +6,7 @@ using AudioByJaime;
 public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeaponSetter
 {
     private PlayerJumpController _pJumpCont;
+    private bool _paused = false; 
     public PlayerHealth health = new PlayerHealth();
     public IframeManager iframeManager = new IframeManager();
     public PlayerWorldData worldData = new PlayerWorldData(); 
@@ -13,9 +14,10 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
     public PlayerInput input = new PlayerInput();
     public List<HeavyWeaponTypeData> heavyWeapons = new List<HeavyWeaponTypeData>();
     public List<NormalWeaponTypeData> normalWeapons = new List<NormalWeaponTypeData>();
-
     public static PlayerController instance;
 
+
+    #region Properties. 
     Vector2 _lastShotDirection = Vector2.right;
 
     public Vector2 LastShotDirection
@@ -44,12 +46,14 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
 
     public PlayerMovementData MovementData => movementData;
 
-    public PlayerInput Input => input; 
+    public PlayerInput Input => input;
+
+    public bool Paused => _paused; 
+    #endregion
 
     public void Awake()
     {
         instance = this;
-        gameObject.AddComponent<PlayerMovementController>();
         _pJumpCont = gameObject.GetComponent<PlayerJumpController>();
     }
 
@@ -157,6 +161,27 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
         }
         return false;
     }
+    #endregion
+
+    Rigidbody2D bd2D;
+    Vector2 previousVelocity;
+    float previousAngularVel; 
+
+    #region UI Functions. 
+    public void PausePlayer(bool state)
+    {
+        _paused = state;
+
+        if (bd2D == null)
+            bd2D = gameObject.GetComponent<Rigidbody2D>();
+        bd2D.isKinematic = state;
+
+        if (state)
+        {
+            bd2D.velocity = Vector2.zero;
+            bd2D.angularVelocity = 0; 
+        }
+    } 
     #endregion
 }
 

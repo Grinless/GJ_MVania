@@ -28,6 +28,9 @@ public class PlayerWeaponController : MonoBehaviour
 
     void Update()
     {
+        if (PlayerController.instance.Paused)
+            return; 
+
         Vector3 direction = PlayerController.instance.LastShotDirection;
         direction.z = gameObject.transform.position.z;
 

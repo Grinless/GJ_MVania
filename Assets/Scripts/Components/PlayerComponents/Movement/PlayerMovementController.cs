@@ -32,6 +32,9 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Update()
     {
+        if (PlayerController.instance.Paused)
+            return;
+
         _currentVelocity = Vector2.zero;
 
         //Detect directional inputs.

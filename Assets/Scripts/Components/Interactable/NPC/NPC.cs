@@ -13,7 +13,7 @@ public class NPC : MonoBehaviour, IInteractionResult
             return;
         else
         {
-            dialogueDisplay.ShowDialogue(dialogue, true, 2f);
+            dialogueDisplay.ShowDialogue(dialogue, false, 2f);
             StartCoroutine(Close());
         }
     }

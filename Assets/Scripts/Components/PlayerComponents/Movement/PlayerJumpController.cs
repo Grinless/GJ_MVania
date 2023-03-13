@@ -54,7 +54,7 @@ public class PlayerJumpController : MonoBehaviour
     {
         lastGrounded = _grounded;
 
-        if (!Grounded) 
+        if (!Grounded || PlayerController.instance.Paused) 
             return; 
 
         if(!lastGrounded && Grounded)
