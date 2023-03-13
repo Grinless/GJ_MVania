@@ -5,7 +5,8 @@ using UnityEngine;
 public class Powerup_MutagenBeam : PowerupController
 {
     public int weaponID;
-    public DialogueDisplay dialogueDisplay; 
+    public DialogueDisplay dialogueDisplay;
+    public GameObject massChaseStartup; 
 
     internal override void ApplyPowerUp()
     {
@@ -36,6 +37,7 @@ public class Powerup_MutagenBeam : PowerupController
         dialogueDisplay.HideDialogue();
         
         PlayerController.instance.PausePlayer(false);
+        massChaseStartup.SetActive(true);
         Destroy(gameObject);
     }
 }

@@ -8,8 +8,6 @@ public class Boss_MassData
     public float health;
     public float speed;
     public float smoothing = 0.01f;
-    public float acceptibleDistX = 0.5f;
-    public float acceptibleDistY = 0.5f;
     public bool killable;
     public bool active;
 }
@@ -18,17 +16,35 @@ public class Boss_MassChase : MonoBehaviour
 {
     public WaypointSystem waypointsSystem;
     public Boss_MassData data;
+    public Rigidbody2D body;
 
-    private void Start() => waypointsSystem.Setup(gameObject);
+    private void Awake()
+    {
+        waypointsSystem.Setup(gameObject);
+        data.active = true;
+    }
 
-    private void Update() => waypointsSystem.UpdateWaypoints(gameObject.transform.position);
+    private void Update()
+    {
+        if (data.active)
+            waypointsSystem.UpdateWaypoints(gameObject.transform.position);
+    }
 
-    private void LateUpdate() => waypointsSystem.LateUpdate(gameObject, data.speed);
+    private void LateUpdate()
+    {
+        if (data.active)
+        {
+            waypointsSystem.LateUpdate(gameObject, data.speed);
+        }
+        if(waypointsSystem.pathEnded)
+            gameObject.SetActive(false);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(gameObject.layer == 6)
-            ((IPlayerDamage)PlayerController.instance).ApplyDamage(5);
+        IPlayerDamage dmg; 
+        if (collision.gameObject.layer == 6)
+            ((IPlayerDamage) collision.gameObject.GetComponent<PlayerController>()).ApplyDamage(5);
     }
 
     #region Draw Points

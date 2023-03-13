@@ -15,20 +15,27 @@ public class CrumbleBlock : MonoBehaviour
 
     public float _currentTime = 0;
     public BoxCollider2D collision;
-    public SpriteRenderer renderer;
+    public SpriteRenderer _renderer;
     public float fadeSpeed = 0.5f;
     public float timeTillReactivated = 0.5f;
+
+    public float SetAlpha
+    {
+        set => _renderer.color =
+                    new Color(_renderer.color.r, 
+                        _renderer.color.g, 
+                        _renderer.color.b, 
+                        value);
+    }
 
     private void Update()
     {
         if (state == CBState.FADE)
         {
-            if (renderer.color.a > 0)
+            if (_renderer.color.a > 0)
             {
-                renderer.color =
-                    new Color(renderer.color.r, renderer.color.g, renderer.color.b, renderer.color.a - fadeSpeed * Time.deltaTime);
-
-                if (renderer.color.a <= 0)
+                SetAlpha = _renderer.color.a - fadeSpeed * Time.deltaTime;
+                if (_renderer.color.a <= 0)
                 {
                     state = CBState.RESET;
                     collision.enabled = false;
@@ -45,8 +52,7 @@ public class CrumbleBlock : MonoBehaviour
                 _currentTime -= Time.deltaTime;
             else
             {
-                renderer.color =
-                    new Color(renderer.color.r, renderer.color.g, renderer.color.b, 1);
+                SetAlpha = 1;
                 collision.enabled = true;
                 state = CBState.INACTIVE;
             }
