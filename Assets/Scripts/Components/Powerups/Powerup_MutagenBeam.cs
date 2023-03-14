@@ -6,7 +6,8 @@ public class Powerup_MutagenBeam : PowerupController
 {
     public int weaponID;
     public DialogueDisplay dialogueDisplay;
-    public GameObject massChaseStartup; 
+    public GameObject massChaseStartup;
+    public AlarmActivation alarmActivation;
 
     internal override void ApplyPowerUp()
     {
@@ -38,6 +39,7 @@ public class Powerup_MutagenBeam : PowerupController
         
         PlayerController.instance.PausePlayer(false);
         massChaseStartup.SetActive(true);
+        alarmActivation.EnableAlarms();
         Destroy(gameObject);
     }
 }
