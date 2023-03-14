@@ -35,7 +35,8 @@ public class Door : MonoBehaviour
         get => entryDetection.enabled;
     }
 
-    private bool SetExitTriggerState {
+    private bool SetExitTriggerState
+    {
         set => exitDetection.enabled = exitDetection2.enabled = value;
     }
 
@@ -58,8 +59,12 @@ public class Door : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_state == DoorState.LOCKED)
-            ResolveDoorOpening(collision);
-
+        {
+            if (collision.gameObject.layer == 7)
+                ResolveBulletBasedOpeneing(collision.gameObject);
+            else
+                ResolveDoorOpening(collision);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -86,10 +91,21 @@ public class Door : MonoBehaviour
                 if (PlayerController.instance.worldData.generatorStarted)
                     OpenDoor();
                 break;
+        }
+    }
+
+    private void ResolveBulletBasedOpeneing(GameObject obj)
+    {
+        if (obj.layer != 7)
+            return;
+
+        switch (doorType)
+        {
             case DoorKeyType.MUTAGEN_BEAM:
-                if (collision.gameObject.tag == "MUTAGEN_BEAM")
+                if (obj.tag == "MUTAGEN_BEAM")
                     OpenDoor();
                 break;
+
         }
     }
 
@@ -110,7 +126,6 @@ public class Door : MonoBehaviour
         _state = DoorState.LOCKED;
         SwapTriggerState();
     }
-
 }
 
 public interface IRoomAccess
