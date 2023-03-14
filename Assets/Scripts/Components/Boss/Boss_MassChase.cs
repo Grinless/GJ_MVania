@@ -17,11 +17,13 @@ public class Boss_MassChase : MonoBehaviour
     public WaypointSystem waypointsSystem;
     public Boss_MassData data;
     public Rigidbody2D body;
+    public LayerMask layerMask = new LayerMask();
 
     private void Awake()
     {
         waypointsSystem.Setup(gameObject);
         data.active = true;
+        body.includeLayers = layerMask;
     }
 
     private void Update()
@@ -40,11 +42,14 @@ public class Boss_MassChase : MonoBehaviour
             gameObject.SetActive(false);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D trigger)
     {
-        IPlayerDamage dmg; 
-        if (collision.gameObject.layer == 6)
-            ((IPlayerDamage) collision.gameObject.GetComponent<PlayerController>()).ApplyDamage(5);
+        IPlayerDamage dmg;
+        if (trigger.gameObject.layer == 6)
+        {
+            ((IPlayerDamage)trigger.gameObject.GetComponent<PlayerController>()).ApplyDamage(5);
+            trigger.gameObject.GetComponent<PlayerController>().ApplyForce(Vector2.right, 30, 10);
+        }
     }
 
     #region Draw Points

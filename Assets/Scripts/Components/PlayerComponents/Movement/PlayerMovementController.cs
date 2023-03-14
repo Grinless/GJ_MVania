@@ -14,7 +14,7 @@ public class PlayerMovementController : MonoBehaviour
 
     float RampBonus
     {
-        get { return _data.runRampData.rampBonus / _data.runRampData.rampTime; }
+        get { return _data.runRampData.shortJump / _data.runRampData.rampTime; }
     }
 
     float CurrentRampTime

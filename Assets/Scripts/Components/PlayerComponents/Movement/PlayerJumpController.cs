@@ -14,31 +14,22 @@ public class PlayerJumpController : MonoBehaviour
     Rigidbody2D _rigidbody;
 
     public PlayerGroundChecker _groundChecker;
-    public float jumpKeyHeldTime;
-    public float jumpDistanceCurrent;
-    public bool jumpPrepare = false;
+    public float _startJumpTime;
+    public float _jumpTime;
     public bool jumping = false;
+    public bool jumpCancel = false;
+    public float maxfallSpeed = 4;
+    public float risingGravity = 1.5f;
+    public float airTimeGravity = 0f;
+    public float fallingGravity = 0.8f;
+    public float airTime = 0.2f;
 
-    private float JumpBonus
+    private float JumpBase
     {
-        get
-        {
-            return _data.jumpRampData.rampBonus / _data.jumpRampData.rampTime;
-        }
+        get => _data.jumpRampData.baseValue;
     }
 
-    private float HeldTime
-    {
-        get { return jumpKeyHeldTime; }
-        set
-        {
-            jumpKeyHeldTime = value;
-            if (value > _data.runRampData.rampTime)
-                jumpKeyHeldTime = _data.runRampData.rampTime;
-        }
-    }
-
-    private bool Grounded => _grounded = _groundChecker.Grounded;
+    private bool Grounded => GroundedCheck();
 
     public void Setup(ref PlayerInput input, ref PlayerMovementData data, Rigidbody2D body)
     {
@@ -48,62 +39,98 @@ public class PlayerJumpController : MonoBehaviour
         _groundChecker = GetComponent<PlayerGroundChecker>();
     }
 
-    private bool lastGrounded;
+    private bool down;
 
     private void Update()
     {
-        lastGrounded = _grounded;
+        if (PlayerController.instance.Paused)
+            return;
 
-        if (!Grounded || PlayerController.instance.Paused) 
-            return; 
+        if (Input.GetKeyDown(KeyCode.Space))
+            down = true;
 
-        if(!lastGrounded && Grounded)
-        {
-            //--AJ--
-            AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.Land);
-        }
-
-        if (_input.jumpKey.KeyDown() && !jumpPrepare)
-        {
-            jumpPrepare = true;
-
-            StartCoroutine(PressTimer());
-        }
-
-        if (CanJump())
-        {
-            StopCoroutine(PressTimer());
-            jumpDistanceCurrent += JumpBonus * HeldTime;
-            _rigidbody.AddForce(new Vector2(0, jumpDistanceCurrent), ForceMode2D.Impulse);
-
-            //--AJ--
-            AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.Jump);
-
-            ResetJumpState();
-        }
+        if (Input.GetKeyUp(KeyCode.Space))
+            down = false;
     }
 
-    private IEnumerator PressTimer()
+    bool lastGroundedState;
+    bool jumpSFXPlayed = false;
+
+    void FixedUpdate()
     {
-        //Reset values. 
-        jumpDistanceCurrent = 0;
-        HeldTime = 0;
-        jumpDistanceCurrent = _data.jumpRampData.baseValue;
+        if (PlayerController.instance.Paused)
+            return;
 
-        //Time input.
-        while (HeldTime < _data.jumpRampData.rampTime)
+        if (down && Grounded && !jumping)
         {
-            HeldTime += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            if (!jumpSFXPlayed)
+            {
+                PlayJumpSFX();
+                jumpSFXPlayed = true;
+            }
+            jumping = true;
+            _groundChecker.enabled = false;
+            _jumpTime = _startJumpTime;
+            _rigidbody.velocity += Vector2.up * JumpBase;
+            _rigidbody.gravityScale = risingGravity;
         }
+
+        if (down && jumping)
+        {
+            _rigidbody.gravityScale = 1;
+            if (_jumpTime > 0)
+            {
+                _rigidbody.velocity += Vector2.up * JumpBase;
+                _jumpTime -= Time.deltaTime;
+            }
+            if (_jumpTime < 0 && _jumpTime > airTime)
+            {
+                _rigidbody.gravityScale = airTimeGravity;
+            }
+            else
+            {
+                jumping = false;
+                _rigidbody.gravityScale += fallingGravity;
+            }
+        }
+
+        if (!down)
+        {
+            jumpSFXPlayed = false;
+            jumping = false;
+            _rigidbody.gravityScale += 0.02f;
+            _groundChecker.enabled = true; 
+        }
+
+        _rigidbody.velocity = new Vector2(
+            _rigidbody.velocity.x,
+            Mathf.Clamp(_rigidbody.velocity.y, -maxfallSpeed, JumpBase)
+            );
     }
 
-    public bool CanJump() => (
-        _input.jumpKey.KeyRelease() && jumpPrepare && Grounded && !jumping) ? true : false;
-
-    public void ResetJumpState()
+    private bool GroundedCheck()
     {
-        jumpDistanceCurrent = 0;
-        jumpPrepare = jumping = false;
+        lastGroundedState = _grounded;
+
+        if (jumping)
+        {
+            _grounded = false;
+        }
+        else
+        {
+            _grounded = _groundChecker.Grounded;
+            if (!lastGroundedState && _grounded)
+            {
+                _rigidbody.gravityScale = 1;
+                AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.Land);
+            }
+        }
+        
+        return _grounded;
     }
+
+    //--AJ--
+    private void PlayJumpSFX() => AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.Jump);
+
+    public bool CanJump() => (_input.jumpKey.KeyDown() && Grounded && !jumping) ? true : false;
 }

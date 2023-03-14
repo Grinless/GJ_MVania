@@ -102,7 +102,7 @@ MonoBehaviour:
   state: 0
   _currentTime: 0
   collision: {fileID: 3263295064438032242}
-  renderer: {fileID: 3263295064438032253}
+  _renderer: {fileID: 3263295064438032253}
   fadeSpeed: 1.4
   timeTillReactivated: 0.5
 --- !u!61 &3263295064438032241

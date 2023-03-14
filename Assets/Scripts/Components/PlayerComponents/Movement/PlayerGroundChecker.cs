@@ -8,9 +8,9 @@ using UnityEngine;
 public class PlayerGroundChecker : MultiRayChecker
 {
     private const float JUMP_DETECTION_DIST = .75f;
-    private const float JUMP_DETECTION_LENGTH = 0.25f;
-    private const int DIVISIONS = 5;
-    private const float RAYCAST_WIDTH = 0.7f;
+    private const float JUMP_DETECTION_LENGTH = 0.05f;
+    private const int DIVISIONS = 4;
+    private const float RAYCAST_WIDTH = 0.4f;
 
     public bool grounded;
 

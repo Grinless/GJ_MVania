@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
     public List<HeavyWeaponTypeData> heavyWeapons = new List<HeavyWeaponTypeData>();
     public List<NormalWeaponTypeData> normalWeapons = new List<NormalWeaponTypeData>();
     public static PlayerController instance;
-
+    public Rigidbody2D body2D;
 
     #region Properties. 
     Vector2 _lastShotDirection = Vector2.right;
@@ -74,7 +74,8 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
     #region Health Management.
     void IPlayerDamage.ApplyDamage(int value)
     {
-        print("Applying Damage! " + value);
+        if (iframeManager.IframesActive)
+            return; 
         health.current -= value;
 
         PlayHurtSFX();
@@ -185,6 +186,24 @@ public class PlayerController : MonoBehaviour, IPlayerDamage, IPlayerHeal, IWeap
     private void PlayHurtSFX() =>
         AudioController.Instance.PlaySound(SoundEffectType.Hurt); //--AJ--
     #endregion
+
+    public void ApplyForce(Vector2 direction, float amount, int frames)
+    {
+        StartCoroutine(AddForce(direction, amount, frames));
+    }
+
+    private IEnumerator AddForce(Vector2 direction, float amount, int frames)
+    {
+        int _currentFrame = frames; 
+
+        while(_currentFrame > 0)
+        {
+            _currentFrame--;
+            body2D.velocity += (direction * amount);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
 }
 
 public interface IWeaponSetter

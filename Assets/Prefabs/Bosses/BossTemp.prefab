@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9072684772667838755}
   - component: {fileID: 8147238479667856283}
   - component: {fileID: 185705932780496590}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: BossTemp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9072684772667838753
 SpriteRenderer:
@@ -183,6 +183,9 @@ MonoBehaviour:
     killable: 0
     active: 1
   body: {fileID: 9072684772667838755}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!50 &9072684772667838755
 Rigidbody2D:
   serializedVersion: 4
@@ -202,10 +205,10 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1879052215
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -264,4 +267,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 2.2
