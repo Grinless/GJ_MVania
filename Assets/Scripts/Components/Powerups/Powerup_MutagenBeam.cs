@@ -21,7 +21,7 @@ public class Powerup_MutagenBeam : PowerupController
         ///Set the player immobile. 
         PlayerController.instance.PausePlayer(true);
 
-        dialogueDisplay.ShowDialogue("WEAPON COLLECTED: MUTAGEN BEAM. \n PRESS SHIFT + DIRECTION TO FIRE.", true, 0.8f);
+        dialogueDisplay.ShowDialogue("WEAPON COLLECTED: MUTAGEN BEAM. \n PRESS SHIFT + DIRECTION TO FIRE.", true, 1.8f);
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         StartCoroutine(DisplayTimer()); 
     }
