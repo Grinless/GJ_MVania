@@ -23,9 +23,7 @@ public class RoomEnablerSwipSwap : MonoBehaviour
     {
         if (collision.gameObject.layer == 6)
         {
-            clone = GameObject.Instantiate(hubObj, collision.transform);
-            clone.transform.position = hubObj.transform.position;
-            clone.SetActive(true);
+            hubObj.SetActive(true);
             SetState(disableTriggers, true);
             SetState(enableTriggers, false);
         }
@@ -35,7 +33,6 @@ public class RoomEnablerSwipSwap : MonoBehaviour
     {
         if (collision.gameObject.layer == 6)
         {
-            Destroy(clone);
             hubObj.SetActive(false);
             SetState(disableTriggers, false);
             SetState(enableTriggers, true);
