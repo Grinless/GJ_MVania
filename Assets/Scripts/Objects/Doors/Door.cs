@@ -35,10 +35,10 @@ public class Door : MonoBehaviour
         get => entryDetection.enabled;
     }
 
-    private bool SetExitTriggerState {
+    private bool SetExitTriggerState
+    {
         set => exitDetection.enabled = exitDetection2.enabled = value;
     }
-
 
     private void SwapTriggerState()
     {
@@ -58,8 +58,12 @@ public class Door : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_state == DoorState.LOCKED)
-            ResolveDoorOpening(collision);
-
+        {
+            if (collision.gameObject.layer == 7)
+                ResolveBulletBasedOpeneing(collision.gameObject);
+            else
+                ResolveDoorOpening(collision);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -86,10 +90,21 @@ public class Door : MonoBehaviour
                 if (PlayerController.instance.worldData.generatorStarted)
                     OpenDoor();
                 break;
+        }
+    }
+
+    private void ResolveBulletBasedOpeneing(GameObject obj)
+    {
+        if (obj.layer != 7)
+            return;
+
+        switch (doorType)
+        {
             case DoorKeyType.MUTAGEN_BEAM:
-                if (collision.gameObject.tag == "MUTAGEN_BEAM")
+                if (obj.tag == "MUTAGEN_BEAM")
                     OpenDoor();
                 break;
+
         }
     }
 
@@ -100,10 +115,15 @@ public class Door : MonoBehaviour
         collision.SetActive(false);
         SwapTriggerState();
         _state = DoorState.OPEN;
+        StartCoroutine(AutoCloseTimer(4f));
     }
 
     private void ResetDoor()
     {
+        if (timerActive)
+        {
+            StopCoroutine(AutoCloseTimer(4f));
+        }
         //--AJ--
         AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.DoorClose);
         collision.SetActive(true);
@@ -111,6 +131,15 @@ public class Door : MonoBehaviour
         SwapTriggerState();
     }
 
+    bool timerActive = false;
+
+    IEnumerator AutoCloseTimer(float timeTillLock)
+    {
+        timerActive = true;
+        yield return new WaitForSeconds(timeTillLock);
+        timerActive = false; 
+        ResetDoor();
+    }
 }
 
 public interface IRoomAccess
