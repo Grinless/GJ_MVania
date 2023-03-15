@@ -98,6 +98,7 @@ MonoBehaviour:
   entryDetection: {fileID: -2909325130763797754}
   exitDetection: {fileID: 1673221967}
   exitDetection2: {fileID: 1673221966}
+  timeToLock: 2.5
 --- !u!61 &1673221967
 BoxCollider2D:
   m_ObjectHideFlags: 0

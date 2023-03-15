@@ -1,75 +1,36 @@
 {
-    "activeFile": "Maps/Area_1_3.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
-        ".",
-        "Maps",
-        "Tiles",
-        "Tiles/A1_Blue"
     ],
     "fileStates": {
-        "D:/Game Projects/GJ_Metroidvania/Assets/Tiled/Tiles/A1_Blue/A1_Blue.tsx": {
-            "scaleInDock": 1
-        },
-        "Maps/A1_Blue_v1.tsx": {
-            "scaleInDock": 3,
-            "scaleInEditor": 4
-        },
         "Maps/Area_1_2.tmx": {
-            "scale": 1.5,
+            "scale": 0.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 1230,
-                "y": 592.6666666666667
+                "x": 2372,
+                "y": 536
             }
         },
         "Maps/Area_1_3.tmx": {
-            "scale": 0.5,
+            "scale": 1.209765625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 800.1549886987407,
+                "y": 512.4959638359703
+            }
+        },
+        "Maps/Room_JumpRefine.tmx": {
+            "scale": 3.7881249999999995,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 623.9999999999999,
-                "y": 537.3333333333333
-                "x": 858,
-                "y": 500
-                "x": 800,
-                "y": 512
+                "x": 320.21118627289235,
+                "y": 144.13463124896882
             }
-        },
-        "Maps/EarthTiles.tsx": {
-            "scaleInDock": 1
-        },
-        "Maps/Room_JumpRefine.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 0,
-            "viewCenter": {
-                "x": 322.66666666666663,
-                "y": 286.66666666666663
-            }
-        },
-        "Maps/Room_JumpRefine.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 0,
-            "viewCenter": {
-                "x": 322.66666666666663,
-                "y": 286.66666666666663
-            }
-        },
-        "Tiles/A1_Blue/A1_Blue.tsx": {
-            "scaleInDock": 3,
-            "scaleInEditor": 1
         }
     },
     "openFiles": [
-        "Maps/A1_Blue_v1.tsx",
-        "Maps/Area_1_2.tmx",
-        "Maps/Area_1_3.tmx"
     ],
     "project": "TiledMaps.tiled-project",
     "recentFiles": [
-        "Maps/Room_JumpRefine.tmx",
-        "Maps/A1_Blue_v1.tsx",
-        "Maps/Area_1_2.tmx",
-        "Maps/Area_1_3.tmx",
-        "Maps/Room_JumpRefine.tmx",
-        "Tiles/A1_Blue/A1_Blue.tsx"
     ]
 }

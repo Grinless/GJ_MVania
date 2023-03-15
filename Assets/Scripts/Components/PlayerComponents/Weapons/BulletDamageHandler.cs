@@ -7,6 +7,7 @@ public class BulletDamageHandler : MonoBehaviour
 
     public float Damage
     {
+        get { return damage; }
         set { damage = value; }
     }
 

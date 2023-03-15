@@ -23,6 +23,12 @@ public class BatController : AIBase
         set => data.health = value;
     }
 
+    private void OnEnable()
+    {
+        base.firstCollision = true;
+        base.firstTrigger = true;
+    }
+
     public override int Damage => data.damage;
 
     void Update()
@@ -41,7 +47,8 @@ public class BatController : AIBase
 
     public override void Trigger(GameObject collisionObj, bool first, bool player)
     {
-        if (first && player)
+        Debug.Log("Triggered");
+        if (player)
         {
             active = true;
             data.body2D.gravityScale = 1;

@@ -94,7 +94,7 @@ public class PlayerJumpController : MonoBehaviour
             }
         }
 
-        if (!down)
+        if (!down && !Grounded)
         {
             jumpSFXPlayed = false;
             jumping = false;

@@ -2,8 +2,8 @@
 
 public abstract class AIBase : MonoBehaviour, IEnemyDamage
 {
-    private bool firstCollision = true;
-    private bool firstTrigger = true;
+    internal bool firstCollision = true;
+    internal bool firstTrigger = true;
 
     public abstract float Health { get; set; }
     public abstract int Damage { get; }

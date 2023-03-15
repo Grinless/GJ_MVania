@@ -26,6 +26,7 @@ public class Door : MonoBehaviour
     public BoxCollider2D entryDetection;
     public BoxCollider2D exitDetection;
     public BoxCollider2D exitDetection2;
+    public float timeToLock = 2.5f; 
 
     public List<IRoomAccess> roomInit = new List<IRoomAccess>();
 
@@ -63,15 +64,6 @@ public class Door : MonoBehaviour
                 ResolveBulletBasedOpeneing(collision.gameObject);
             else
                 ResolveDoorOpening(collision);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<PlayerController>() != null)
-        {
-            if (_state == DoorState.OPEN)
-                ResetDoor();
         }
     }
 
@@ -115,14 +107,14 @@ public class Door : MonoBehaviour
         collision.SetActive(false);
         SwapTriggerState();
         _state = DoorState.OPEN;
-        StartCoroutine(AutoCloseTimer(4f));
+        StartCoroutine(AutoCloseTimer(timeToLock));
     }
 
     private void ResetDoor()
     {
         if (timerActive)
         {
-            StopCoroutine(AutoCloseTimer(4f));
+            StopCoroutine(AutoCloseTimer(timeToLock));
         }
         //--AJ--
         AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.DoorClose);
