@@ -1,8 +1,4 @@
 {
-    "Map/SizeTest": {
-        "height": 4300,
-        "width": 2
-    },
     "activeFile": "Maps/Area_1_3.tmx",
     "expandedProjectPaths": [
         ".",
@@ -22,13 +18,11 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 1167.3333333333333,
-                "y": 369.3333333333333
+                "x": 1230,
                 "y": 592.6666666666667
             }
         },
         "Maps/Area_1_3.tmx": {
-            "scale": 0.75,
             "scale": 0.5,
             "selectedLayer": 1,
             "viewCenter": {
@@ -36,7 +30,12 @@
                 "y": 537.3333333333333
                 "x": 858,
                 "y": 500
+                "x": 800,
+                "y": 512
             }
+        },
+        "Maps/EarthTiles.tsx": {
+            "scaleInDock": 1
         },
         "Maps/Room_JumpRefine.tmx": {
             "scale": 1.5,
@@ -51,14 +50,6 @@
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Sprites",
-    "last.worldFilePath": "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Tiled/Maps",
-    "loadedWorlds": [
-        "D:/Game Projects/Repo_GJ_MVania/GJ_MVania/Assets/Tiled/Maps/Area_1_WRLD.world"
-    ],
-    "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 16,
-    "map.tileWidth": 16,
     "openFiles": [
         "Maps/A1_Blue_v1.tsx",
         "Maps/Area_1_2.tmx",
@@ -66,16 +57,10 @@
     ],
     "project": "TiledMaps.tiled-project",
     "recentFiles": [
-        "Maps/Area_1_3.tmx",
-        "Maps/Room_JumpRefine.tmx",
         "Maps/A1_Blue_v1.tsx",
         "Maps/Area_1_2.tmx",
         "Maps/Area_1_3.tmx",
+        "Maps/Room_JumpRefine.tmx",
         "Tiles/A1_Blue/A1_Blue.tsx"
-    ],
-    "tileset.lastUsedFormat": "tsx",
-    "tileset.tileSize": {
-        "height": 16,
-        "width": 16
-    }
+    ]
 }
