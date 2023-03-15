@@ -40,7 +40,6 @@ public class Door : MonoBehaviour
         set => exitDetection.enabled = exitDetection2.enabled = value;
     }
 
-
     private void SwapTriggerState()
     {
         bool state = SetEntryTriggerState;
@@ -116,15 +115,30 @@ public class Door : MonoBehaviour
         collision.SetActive(false);
         SwapTriggerState();
         _state = DoorState.OPEN;
+        StartCoroutine(AutoCloseTimer(4f));
     }
 
     private void ResetDoor()
     {
+        if (timerActive)
+        {
+            StopCoroutine(AutoCloseTimer(4f));
+        }
         //--AJ--
         AudioByJaime.AudioController.Instance.PlaySound(AudioByJaime.SoundEffectType.DoorClose);
         collision.SetActive(true);
         _state = DoorState.LOCKED;
         SwapTriggerState();
+    }
+
+    bool timerActive = false;
+
+    IEnumerator AutoCloseTimer(float timeTillLock)
+    {
+        timerActive = true;
+        yield return new WaitForSeconds(timeTillLock);
+        timerActive = false; 
+        ResetDoor();
     }
 }
 
